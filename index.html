@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Rasoi - Make Your Dish</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2 family=Cinzel:wght@600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --metallic-blue: #1E3A8A;
+            --metallic-blue-dark: #0F172A;
+            --metallic-red: #991B1B;
+            --metallic-red-dark: #4C0519;
+            --jet-black: #070707;
+            --glass-bg: rgba(15, 15, 15, 0.65);
+            --glass-border: rgba(212, 175, 55, 0.25);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--jet-black);
+            color: #FFFFFF;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            min-h: 100vh;
+        }
+
+        .royal-title {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* All-Over Universal Premium Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Custom Scrollbar for Premium Feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--jet-black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        /* Gold metallic text effect */
+        .gold-text {
+            background: linear-gradient(135deg, #FFE07D 0%, #D4AF37 50%, #9A7B1C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Premium Glows */
+        .gold-glow:focus {
+            outline: none;
+            box-shadow: 0 0 15px var(--gold-glow);
+            border-color: var(--gold);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .clickable:active {
+            transform: scale(0.97);
+        }
+
+        /* ---- ADVANCED REALISTIC SMOKE DRIFT EFFECT (Cigarette Style Floating Note) ---- */
+        .smoke-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+            opacity: 0.45; /* Moderate visibility setup */
+        }
+
+        .smoke-particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            mix-blend-mode: screen;
+            animation: floatSmoke 12s infinite linear;
+        }
+
+        /* Bottom Left - Metallic Red Smoke */
+        .smoke-red {
+            bottom: -10%;
+            left: -10%;
+            width: 45vw;
+            height: 45vw;
+            background: radial-gradient(circle, rgba(153,27,27,0.4) 0%, rgba(0,0,0,0) 70%);
+            animation-duration: 14s;
+        }
+
+        /* Top Right - Metallic Blue Smoke */
+        .smoke-blue {
+            top: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(30,58,138,0.4) 0%, rgba(0,0,0,0) 70%);
+            animation-duration: 16s;
+        }
+
+        /* Center Ambient - Royal Gold Smoke */
+        .smoke-gold {
+            top: 30%;
+            left: 25%;
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, rgba(214,175,55,0.2) 0%, rgba(0,0,0,0) 65%);
+            animation-duration: 20s;
+            animation-timing-function: ease-in-out;
+        }
+
+        @keyframes floatSmoke {
+            0% {
+                transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+                opacity: 0.3;
+            }
+            33% {
+                transform: translateY(-8vh) translateX(5vw) scale(1.15) rotate(30deg);
+                opacity: 0.6;
+            }
+            66% {
+                transform: translateY(-16vh) translateX(-3vw) scale(0.9) rotate(-20deg);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-25vh) translateX(2vw) scale(1.2) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* ---- PREMIUM BUTTON AUTOMATED SHINE EFFECT ---- */
+        .premium-shine-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-shine-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 30%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.25) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(25deg);
+            animation: continuousShine 4.5s infinite ease-in-out;
+        }
+        @keyframes continuousShine {
+            0% { left: -60%; }
+            20% { left: 140%; }
+            100% { left: 140%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="smoke-container">
+        <div class="smoke-particle smoke-red"></div>
+        <div class="smoke-particle smoke-blue"></div>
+        <div class="smoke-particle smoke-gold"></div>
+    </div>
+
+    <script>
+        const AudioEngine = {
+            ctx: null,
+            init() {
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playClick() {
+                try {
+                    if(!this.ctx) this.init();
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.09);
+                } catch(e) {}
+            },
+            playSuccess() {
+                try {
+                    if(!this.ctx) this.init();
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08); // E5
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.25);
+                } catch(e) {}
+            }
+        };
+        function triggerClickSound() { AudioEngine.playClick(); }
+        function triggerSuccessSound() { AudioEngine.playSuccess(); }
+    </script>
+
+    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col justify-center items-center bg-[#070707] transition-opacity duration-700 ease-out">
+        <div class="smoke-container opacity-60"><div class="smoke-particle smoke-gold"></div></div>
+        <div class="text-center z-10 px-4">
+            <p class="text-[#D4AF37] text-xs md:text-sm tracking-[0.4em] font-bold uppercase opacity-80 mb-2">
+                WELCOME TO
+            </p>
+            <h1 class="royal-title text-5xl md:text-7xl font-extrabold tracking-widest gold-text mb-3 drop-shadow-[0_5px_15px_rgba(214,175,55,0.5)]">
+                ROYAL RASOI
+            </h1>
+            <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-4"></div>
+            <p class="text-white text-xs tracking-[0.35em] font-light uppercase opacity-90">
+                make your dish
+            </p>
+        </div>
+    </div>
+
+    <div id="app-canvas" class="hidden min-h-screen flex flex-col justify-between pb-24 z-10 relative">
+        
+        <div id="admin-notification" class="fixed top-4 left-4 right-4 z-50 hidden transform transition-all duration-300">
+            <div class="bg-gradient-to-r from-[#991B1B] via-[#070707] to-[#1E3A8A] border border-[#D4AF37] text-white px-4 py-3 rounded-xl shadow-2xl flex justify-between items-center glass-panel">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-[#991B1B] animate-ping"></span>
+                    <p class="text-xs font-mono text-gray-300">
+                        [Owner Alert] User searched missing dish: <span id="missing-dish-name" class="text-yellow-400 font-bold"></span>. Syncing to your phone!
+                    </p>
+                </div>
+                <button onclick="document.getElementById('admin-notification').classList.add('hidden')" class="text-[#D4AF37] font-bold text-sm ml-2">✕</button>
+            </div>
+        </div>
+
+        <main id="home-page" class="w-full max-w-lg mx-auto px-5 pt-8 animate-fade">
+            
+            <div class="mb-8">
+                <h2 class="royal-title text-xl text-left tracking-wide mb-3" style="color: #D4AF37;">
+                    Search Dishes
+                </h2>
+                <div class="relative w-full rounded-xl p-[1px] bg-gradient-to-r from-[#D4AF37] via-[#991B1B] to-[#1E3A8A]">
+                    <div class="bg-[#070707] rounded-xl flex items-center px-4 py-3.5">
+                        <span class="text-white mr-3 opacity-90">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </span>
+                        <input type="text" id="recipe-search-input" placeholder="Yahan dish search karein..." 
+                               class="w-full bg-transparent text-white font-medium placeholder-gray-500 focus:outline-none text-base"
+                               onkeyup="handleSearchInput(event)">
+                    </div>
+                </div>
+                <div id="search-autocomplete-box" class="hidden w-full mt-2 rounded-xl glass-panel border border-[#D4AF37] max-h-60 overflow-y-auto z-50 absolute max-w-md"></div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="royal-title text-xl tracking-wide mb-3" style="color: #D4AF37;">
+                    Major Dishes
+                </h2>
+                <div class="rounded-2xl glass-panel p-4 border border-[#D4AF37]/40 shadow-2xl relative">
+                    <div id="major-dishes-grid" class="flex flex-col gap-3 z-10 relative">
+                        </div>
+                </div>
+            </div>
+
+            <div class="mb-10">
+                <h2 class="royal-title text-xl tracking-wide mb-3" style="color: #D4AF37;">
+                    Make Dishes
+                </h2>
+                <div onclick="navigateToDirectory()" class="clickable premium-shine-btn w-full bg-gradient-to-r from-[#1E3A8A] via-[#991B1B] to-[#1E3A8A] rounded-xl p-4 border border-[#D4AF37] text-center shadow-lg cursor-pointer transition-transform duration-200">
+                    <span class="font-bold tracking-wider text-base text-white block">DISHA DIRECTORY (ALL DISHES)</span>
+                </div>
+            </div>
+
+        </main>
+
+        <main id="recipe-detail-page" class="w-full max-w-xl mx-auto px-5 pt-6 hidden animate-fade">
+            <button onclick="returnToPreviousView()" class="clickable mb-5 flex items-center text-sm font-semibold tracking-wider text-gray-400 hover:text-white transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                BACK TO DISHES
+            </button>
+
+            <div class="glass-panel rounded-3xl p-6 border border-[#D4AF37] shadow-2xl relative overflow-hidden mb-12">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#1E3A8A] opacity-25 blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#991B1B] opacity-25 blur-3xl pointer-events-none"></div>
+
+                <h1 id="detail-dish-title" class="royal-title text-3xl font-extrabold text-center tracking-wide mb-6 leading-tight drop-shadow-md" style="color: #D4AF37;">
+                    DISH NAME PLACEHOLDER
+                </h1>
+
+                <div class="mb-8 border border-dashed border-red-800/60 rounded-2xl p-4 bg-black/50 glass-panel">
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="serving-dropdown" class="text-xs tracking-wider uppercase font-bold text-gray-400">
+                            Kitne Logon Ke Liye Banana Hai?
+                        </label>
+                        <span class="text-xs bg-[#991B1B] px-2 py-0.5 rounded text-white font-mono border border-red-400/30 shadow-sm">
+                            Auto Calculate Mode
+                        </span>
+                    </div>
+                    <div class="relative">
+                        <select id="serving-dropdown" onchange="recalculateIngredientsMetrics(this.value)" 
+                                class="w-full bg-gradient-to-b from-neutral-900 to-black text-[#D4AF37] font-bold py-3 px-4 rounded-xl border border-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37] appearance-none cursor-pointer">
+                            </select>
+                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-[#D4AF37]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="royal-title text-lg font-bold tracking-wide mb-3 border-b pb-1 border-red-500/20" style="color: #D4AF37;">
+                        Chahiye Hone Wala Saman (Ingredients):
+                    </h3>
+                    <ul id="detail-ingredients-list" class="space-y-2.5 text-white/95 text-sm md:text-base font-medium">
+                        </ul>
+                </div>
+
+                <div>
+                    <h3 class="royal-title text-lg font-bold tracking-wide mb-4 border-b pb-1 border-red-500/20" style="color: #D4AF37;">
+                        Banane Ka Aasan Tarika (Steps):
+                    </h3>
+                    <ol id="detail-steps-list" class="space-y-4 text-sm md:text-base text-gray-200">
+                        </ol>
+                </div>
+            </div>
+        </main>
+
+        <main id="directory-page" class="w-full max-w-lg mx-auto px-5 pt-6 hidden animate-fade">
+            <button onclick="showPage('home-page')" class="clickable mb-5 flex items-center text-sm font-semibold tracking-wider text-gray-400 hover:text-white transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                BACK TO DASHBOARD
+            </button>
+
+            <h1 class="royal-title text-2xl font-bold mb-5 tracking-wide border-b border-red-500/30 pb-2" style="color: #D4AF37;">
+                Sari Dish Ki List (Database)
+            </h1>
+            <div id="full-directory-list" class="space-y-3 mb-12">
+                </div>
+        </main>
+
+        <main id="history-page" class="w-full max-w-lg mx-auto px-5 pt-8 hidden animate-fade">
+            <h1 class="royal-title text-3xl font-extrabold text-center tracking-wide mb-2" style="color: #D4AF37;">
+                RECIPE HISTORY LOG
+            </h1>
+            <p class="text-center text-xs text-gray-400 tracking-wider uppercase mb-6">Pehle Dekhi Gayi Dishes Ki List</p>
+
+            <div class="glass-panel rounded-2xl p-4 border border-[#D4AF37] min-h-[350px] shadow-2xl">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-red-500/20">
+                    <span class="text-xs font-mono text-gray-400">Total Tracked Visits</span>
+                    <button onclick="clearUserHistoryLog()" class="premium-shine-btn text-xs px-2.5 py-1.5 rounded bg-[#991B1B] text-white border border-red-500/40 font-medium tracking-wide">
+                        Clear All Logs
+                    </button>
+                </div>
+                <ul id="history-logs-container" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                    </ul>
+            </div>
+        </main>
+
+        <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#070707] border-t border-[#D4AF37]/35 shadow-[0_-5px_25px_rgba(0,0,0,0.9)] glass-panel backdrop-blur-md">
+            <div class="max-w-md mx-auto grid grid-cols-2 h-16">
+                <button onclick="showPage('home-page')" id="nav-btn-home" class="clickable flex flex-col justify-center items-center text-[#D4AF37] transition-all">
+                    <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-xs font-bold uppercase tracking-widest text-white">Homepage</span>
+                </button>
+                <button onclick="showPage('history-page')" id="nav-btn-history" class="clickable flex flex-col justify-center items-center text-gray-500 hover:text-[#D4AF37] transition-all">
+                    <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">History</span>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+
+    <script>
+        // COMPREHENSIVE BACKEND DATABASE ENGINE (20 High-Quality Real Dishes Integrated)
+        // Mapped to 1 single individual person baseline scale.
+        // SIMPLIFIED CLEAN HINGLISH DATABASE STRUCUTRE INSIDE WITHOUT CONFUSING METRICS TERMINOLOGIES
+        const recipesDatabase = [
+            {
+                id: "shahi_paneer",
+                name: "Shahi Paneer",
+                isMajor: true,
+                ingredients: [
+                    { name: "Paneer Ke Tukde (Grams)", baseQty: 100, unitType: "grams" },
+                    { name: "Kata Hua Pyaaz (Medium)", baseQty: 0.5, unitType: "count" },
+                    { name: "Tamatar Ka Paste (Chammach)", baseQty: 2, unitType: "spoons" },
+                    { name: "Adrak Lahsun Paste (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                    { name: "Taaja Malai / Cream (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                    { name: "Kaju Ka Paste (Chammach)", baseQty: 1, unitType: "spoons" },
+                    { name: "Shahi Paneer Masala (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                    { name: "Namak (Swad Anusar Chutki)", baseQty: 2, unitType: "pinch" },
+                    { name: "Kashmiri Lal Mirch Powder (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Ghee Ya Makkhan (Chammach)", baseQty: 1, unitType: "spoons" }
+                ],
+                steps: [
+                    "Kadhai ko gas par rakhein aur ghee ya makkhan garam karke adrak-lahsun aur pyaaz ke paste ko halka sunhera hone tak acche se bhunein.",
+                    "Ab isme tamatar ka paste aur kaju ka paste daal dein, aur tab tak pakayein jab tak masala tel na chhodne lage.",
+                    "Iske baad Shahi Paneer masala, namak aur kashmiri lal mirch daalkar sabhi chizon ko acche se mila lein.",
+                    "Gas ki aanch dheemi karein, taaja malai (cream) milayein aur thoda sa paani daalkar gravy ko halka sa ubaal lein.",
+                    "Ab paneer ke tukde daalein aur bartan par dhakkan lagakar 5 minute tak dheemi aanch par pakne dein. Shahi Paneer taiyar hai!"
+                ]
+            },
+            {
+                id: "chicken_biryani",
+                name: "Chicken Biryani",
+                isMajor: true,
+                ingredients: [
+                    { name: "Basmati Chawal (Grams)", baseQty: 120, unitType: "grams" },
+                    { name: "Chicken Ke Tukde (Grams)", baseQty: 150, unitType: "grams" },
+                    { name: "Tala Hua Pyaaz (Medium)", baseQty: 0.5, unitType: "count" },
+                    { name: "Dahi (Chammach)", baseQty: 2, unitType: "spoons" },
+                    { name: "Biryani Masala (Chammach)", baseQty: 1, unitType: "spoons" },
+                    { name: "Adrak Lahsun Paste (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                    { name: "Pudina Aur Dhaniya Patta (Mutthi)", baseQty: 0.25, unitType: "count" },
+                    { name: "Namak (Chutki)", baseQty: 3, unitType: "pinch" },
+                    { name: "Ghee (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                    { name: "Kesar Wala Doodh (Chammach)", baseQty: 1, unitType: "spoons" }
+                ],
+                steps: [
+                    "Chicken ke tukdon mein dahi, adrak-lahsun paste, biryani masala aur thoda sa namak acche se milakar 30 minute ke liye alag rakh dein.",
+                    "Basmati chawal ko alag bartan mein khade masale aur namak daalkar paani mein ubaal lein, jab chawal lagbhag 70 percent pak jaye toh paani chhaan kar chawal alag kar lein.",
+                    "Kadhai mein ghee garam karein aur pehle se masala milakar rakha hua chicken tab tak pakayein jab tak wo naram na ho jaye.",
+                    "Ab ek bade aur bhaari bartan mein sabse pehle niche chicken ki ek parat (layer) lagayein, phir uske upar uble hue chawal ki parat lagayein.",
+                    "Upar se tala hua pyaaz, pudina, hara dhaniya aur kesar wala doodh failakar daal dein. Bartan ka munh acche se band karke 12 se 15 minute tak ekdum dheemi aanch par dum par pakayein."
+                ]
+            },
+            {
+                id: "chole_bhature",
+                name: "Chole Bhature",
+                isMajor: true,
+                ingredients: [
+                    { name: "Bheege Hue Chole (Grams)", baseQty: 80, unitType: "grams" },
+                    { name: "Maida Bhature Ke Liye (Grams)", baseQty: 100, unitType: "grams" },
+                    { name: "Dahi Aata Gundhne Ke Liye (Chammach)", baseQty: 1, unitType: "spoons" },
+                    { name: "Barik Kata Hua Pyaaz (Medium)", baseQty: 0.5, unitType: "count" },
+                    { name: "Tamatar Ka Paste (Chammach)", baseQty: 2, unitType: "spoons" },
+                    { name: "Chole Masala (Chammach)", baseQty: 1, unitType: "spoons" },
+                    { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" },
+                    { name: "Barik Kata Adrak (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Chai Patti Ki Potli (Kala rang laane ke liye)", baseQty: 0.5, unitType: "count" },
+                    { name: "Tel Bhatura Talne Ke Liye (ML)", baseQty: 100, unitType: "grams" }
+                ],
+                steps: [
+                    "Maida mein dahi aur halka sa namak daalkar naram aata gundh lein aur kapde se dhakkar 2 ghante ke liye chhod dein.",
+                    "Chole ko pressure cooker mein paani, namak aur chai patti ki choti potli ke saath daalkar 5 se 6 seeti aane tak acche se ubaal lein.",
+                    "Kadhai mein tel garam karke barik kata pyaaz, tamatar paste aur chole masala daalkar badhiya gravy masala taiyar karein.",
+                    "Uble hue chole ko gravy mein mix karein aur thoda sa mash karke gravy ko gaadha hone tak acche se pakne dein.",
+                    "Bhature ke aate ki choti loyi banakar gol ya lamba belein aur tez garam tel mein daalkar phule-phule bhature tal lein."
+                ]
+            },
+            {
+                id: "butter_chicken",
+                name: "Butter Chicken",
+                isMajor: true,
+                ingredients: [
+                    { name: "Bina Haddi Ka Chicken (Grams)", baseQty: 150, unitType: "grams" },
+                    { name: "Makkhan / Butter (Grams)", baseQty: 20, unitType: "grams" },
+                    { name: "Tamatar Ka Paste (Katori)", baseQty: 0.5, unitType: "count" },
+                    { name: "Taaja Cream (Chammach)", baseQty: 2, unitType: "spoons" },
+                    { name: "Adrak Lahsun Paste (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                    { name: "Kashmiri Lal Mirch (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                    { name: "Kasuri Methi (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Garam Masala (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Namak (Chutki)", baseQty: 2.5, unitType: "pinch" },
+                    { name: "Dahi Meat Me Milane Ke Liye (Chammach)", baseQty: 1.5, unitType: "spoons" }
+                ],
+                steps: [
+                    "Chicken mein dahi, adrak-lahsun paste aur kashmiri lal mirch milakar pan mein ya tawa par halka tel daalkar senk ya roast kar lein.",
+                    "Ab ek doosri kadhai mein makkhan garam karein aur tamatar ke paste ko acche se pakayein jab tak wo makkhan na chhod de.",
+                    "Is gravy mein kashmiri mirch, garam masala aur pehle se pakaye hue chicken ke tukde daalkar acche se mix karein.",
+                    "Gas ki aanch ko ekdum dheema karke upar se taaja cream aur thoda sa makkhan aur mila dein.",
+                    "Aakhri mein kasuri methi ko haath se ragadkar (crush karke) upar se daalein aur 2 minute ke liye dhakkar pakayein."
+                ]
+            },
+            {
+                id: "masala_dosa",
+                name: "Masala Dosa",
+                isMajor: true,
+                ingredients: [
+                    { name: "Dosa Ka Ghol / Batter (ML)", baseQty: 150, unitType: "grams" },
+                    { name: "Uble Hue Aloo (Grams)", baseQty: 100, unitType: "grams" },
+                    { name: "Lamba Kata Pyaaz (Medium)", baseQty: 0.5, unitType: "count" },
+                    { name: "Rai Ke Daane (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Kadi Patta (Ginti)", baseQty: 4, unitType: "count" },
+                    { name: "Haldi Powder (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                    { name: "Barik Kati Hari Mirch", baseQty: 0.5, unitType: "count" },
+                    { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" },
+                    { name: "Tel Ya Makkhan Sekne Ke Liye (Chammach)", baseQty: 2, unitType: "spoons" },
+                    { name: "Kata Hua Hara Dhaniya (Chammach)", baseQty: 0.5, unitType: "spoons" }
+                ],
+                steps: [
+                    "Ek pan mein thoda tel garam karke rai, kadi patta, sliced pyaaz aur hari mirch ka tadka lagayein.",
+                    "Ab haldi aur namak daalein, phir uble hue aloo ko haath se phodkar (smash karke) mila lein aur upar se hara dhaniya daalkar aloo masala taiyar karein.",
+                    "Dosa tawa ko tez garam karein, phir us par paani ki chhenten maarein aur ek saaf kapde se tawa acche se ponchh lein.",
+                    "Ek bada chamcha dosa ghol (batter) tawa ke bilkul beech mein daalein aur gol-gol ghumate hue patla phelaayein.",
+                    "Kinaron par makkhan ya tel lagayein, jab dosa niche se sunhera aur kurkura (crispy) ho jaye toh beech mein aloo masala rakhkar mod (roll) dein."
+                ]
+            },
+            // Pad database items 6 to 20 for completeness requirements with exact simplified localized hinglish definitions
+            { id: "dal_makhani", name: "Dal Makhani", isMajor: false, ingredients: [{ name: "Sabut Urad Dal (Grams)", baseQty: 60, unitType: "grams" }, { name: "Rajma (Grams)", baseQty: 20, unitType: "grams" }, { name: "Makkhan (Grams)", baseQty: 25, unitType: "grams" }, { name: "Cream (Chammach)", baseQty: 2, unitType: "spoons" }, { name: "Tamatar Paste (Katori)", baseQty: 0.25, unitType: "count" }, { name: "Namak (Chutki)", baseQty: 3, unitType: "pinch" }], steps: ["Urad dal aur rajma ko raat bhar paani mein bhigokar pressure cooker mein acche se ubaal lein.", "Kadhai mein makkhan aur tamatar paste ke saath saare masale acche se bhun lein.", "Ab ubli hui dal milayein aur kam se kam aadhe ghante tak ekdum dheemi aanch par pakne dein taaki asli swaad aaye.", "Aakhri mein cream aur upar se makkhan daalkar garmagaram parosein."] },
+            { id: "paneer_tikka", name: "Paneer Tikka", isMajor: false, ingredients: [{ name: "Paneer Blocks (Grams)", baseQty: 120, unitType: "grams" }, { name: "Shimla Mirch (Grams)", baseQty: 40, unitType: "grams" }, { name: "Gadha Dahi (Chammach)", baseQty: 2, unitType: "spoons" }, { name: "Tikka Masala (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }], steps: ["Paneer aur shimla mirch ko bade aur चौकोर (square) tukdon mein kaat lein.", "Gadha dahi aur tikka masala ke sath in tukdon ko milakar 20 minute ke liye rakh dein.", "Lakhdi ya lohe ki seekh (skewers) mein lagakar tawa par halka tel daalkar sunhera hone tak sek lein."] },
+            { id: "kadhai_chicken", name: "Kadhai Chicken", isMajor: false, ingredients: [{ name: "Chicken (Grams)", baseQty: 150, unitType: "grams" }, { name: "Shimla Mirch (Grams)", baseQty: 50, unitType: "grams" }, { name: "Kadhai Masala (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Tamatar (Grams)", baseQty: 60, unitType: "grams" }, { name: "Namak (Chutki)", baseQty: 2.5, unitType: "pinch" }], steps: ["Kadhai mein tel garam karke chicken ko tez aanch par acche se bhun lein.", "Ab isme tamatar, shimla mirch aur special kadhai masala daal dein.", "Bartan ko dhakkar 15 minute tak pakayein jab tak chicken naram na ho jaye."] },
+            { id: "palak_paneer", name: "Palak Paneer", isMajor: false, ingredients: [{ name: "Palak Patta (Grams)", baseQty: 150, unitType: "grams" }, { name: "Paneer (Grams)", baseQty: 80, unitType: "grams" }, { name: "Barik Lahsun (Chammach)", baseQty: 0.5, unitType: "spoons" }, { name: "Cream (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }], steps: ["Palak ko garam paani mein 2 minute ubaal kar turant thande paani mein daalein aur pees kar paste bana lein.", "Pan mein lahsun aur pyaaz bhun kar palak ka paste daal dein.", "Ab paneer ke tukde daalein aur halka garam masala aur namak daalkar 5 minute tak pakne dein."] },
+            { id: "aloo_paratha", name: "Aloo Paratha", isMajor: false, ingredients: [{ name: "Gundha Hua Aata (Grams)", baseQty: 100, unitType: "grams" }, { name: "Ubla Hua Aloo (Grams)", baseQty: 80, unitType: "grams" }, { name: "Amchur Powder (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }, { name: "Makkhan Ya Ghee (Grams)", baseQty: 15, unitType: "grams" }], steps: ["Uble aloo ko acche se phodkar usme namak, mirch aur amchur powder ka masala taiyar karein.", "Gundhe hue aate ki loyi banakar beech mein aloo ka masala bharein aur dheere-dheere gol bel lein.", "Tawa par dono taraf makkhan ya ghee lagakar achhe se kurkura hone tak senk lein."] },
+            { id: "pav_bhaji", name: "Pav Bhaji", isMajor: false, ingredients: [{ name: "Mili Juli Sabjiyan (Grams)", baseQty: 150, unitType: "grams" }, { name: "Pav Bread (Ginti)", baseQty: 2, unitType: "count" }, { name: "Pav Bhaji Masala (Chammach)", baseQty: 1.5, unitType: "spoons" }, { name: "Makkhan / Butter (Grams)", baseQty: 30, unitType: "grams" }, { name: "Namak (Chutki)", baseQty: 3, unitType: "pinch" }], steps: ["Saari sabjiyon ko pressure cooker mein ubaal lein aur masher se acche se pees (mash) lein.", "Tawa par dher saara makkhan, pyaaz aur pav bhaji masala bhun kar pisi hui sabjiyan mix karein.", "Pav ko makhhan aur thodi si bhaji daalkar tawa par dono taraf se acche se sek lein."] },
+            { id: "samosa", name: "Samosa", isMajor: false, ingredients: [{ name: "Maida (Grams)", baseQty: 80, unitType: "grams" }, { name: "Aloo Ka Masala (Grams)", baseQty: 70, unitType: "grams" }, { name: "Ajwain (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Tel Talne Ke Liye (ML)", baseQty: 120, unitType: "grams" }, { name: "Namak (Chutki)", baseQty: 1.5, unitType: "pinch" }], steps: ["Maida mein ajwain, thoda tel aur namak daalkar thoda sakht aata gundh lein.", "Aate ki patti belkar cone ka shakal banayein aur andar chatpata aloo ka masala bhar dein.", "Kadhai mein thode kam garam tel mein bilkul dheemi aanch par dhire-dhire fry karein taaki samosa khasta bane."] },
+            { id: "dhokla", name: "Khaman Dhokla", isMajor: false, ingredients: [{ name: "Besan (Grams)", baseQty: 100, unitType: "grams" }, { name: "Eno Powder (Chammach)", baseQty: 0.5, unitType: "spoons" }, { name: "Rai Ke Daane (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Cheeni / Sugar (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 1.5, unitType: "pinch" }], steps: ["Besan mein haldi, namak aur paani milakar ek smooth aur achha ghol (batter) banayein.", "Steam (bhaap) mein rakhne se thik pehle Eno milakar jaldi se mix karein aur सांचे (mold) mein daalkar 15 minute bhaap mein pakayein.", "Rai, kadi patta, hari mirch aur halki cheeni-paani ka ubla hua tadka dhokla ke upar daal dein."] },
+            { id: "hakka_noodles", name: "Hakka Noodles", isMajor: false, ingredients: [{ name: "Uble Hue Noodles (Grams)", baseQty: 120, unitType: "grams" }, { name: "Kati Hui Sabjiyan (Grams)", baseQty: 60, unitType: "grams" }, { name: "Soya Sauce (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Sirka / Vinegar (Chammach)", baseQty: 0.5, unitType: "spoons" }, { name: "Namak / Schezwan Masala", baseQty: 2, unitType: "pinch" }], steps: ["Tez aanch par pan mein thoda tel garam karke barik lahsun, lamba kata pyaaz aur pattagobhi bhunein.", "Ab uble noodles daalein, upar se soya sauce, vinegar aur namak daal dein.", "Tez aanch par hi 2 minute tak upar-neeche chalakar (toss karke) garmagaram parosein."] },
+            { id: "veg_pulao", name: "Veg Pulao", isMajor: false, ingredients: [{ name: "Basmati Chawal (Grams)", baseQty: 100, unitType: "grams" }, { name: "Kati Hui Sabjiyan (Grams)", baseQty: 60, unitType: "grams" }, { name: "Shahi Jeera (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Ghee (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }], steps: ["Kooker mein ghee garam karke jeera aur khade masale chatkayein, phir pyaaz aur sabjiyan daalkar bhunein.", "Pehle se bheege hue chawal aur dugna paani daalkar swadanusar namak milayein.", "Dhakkan lagakar pressure cooker mein bas 1 ya 2 seeti aane tak pakaayein."] },
+            { id: "gulab_jamun", name: "Gulab Jamun", isMajor: false, ingredients: [{ name: "Mawa / Khoya (Grams)", baseQty: 80, unitType: "grams" }, { name: "Cheeni Chasni Ke Liye (Grams)", baseQty: 150, unitType: "grams" }, { name: "Elaichi Powder (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Maida binding ke liye (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Ghee Talne Ke Liye (ML)", baseQty: 100, unitType: "grams" }], steps: ["Khoya aur maida ko bina paani ke haath se acche se masal kar ek naram aata (dough) banayein.", "Is aate ki choti-choti gol balls banayein, dhyan rahe unme ek bhi darar (crack) na ho.", "Ghee ko halka garam karke ekdum dheemi aanch par badami hone tak talen aur nikaalkar garm chasni mein 2 ghante duba kar rakhein."] },
+            { id: "mutton_korma", name: "Royal Mutton Korma", isMajor: false, ingredients: [{ name: "Mutton Pieces (Grams)", baseQty: 150, unitType: "grams" }, { name: "Tale Pyaaz Ka Paste (Chammach)", baseQty: 1.5, unitType: "spoons" }, { name: "Korma Masala (Chammach)", baseQty: 1.5, unitType: "spoons" }, { name: "Dahi (Chammach)", baseQty: 2, unitType: "spoons" }, { name: "Ghee (Chammach)", baseQty: 2, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 3, unitType: "pinch" }], steps: ["Mutton ko dahi aur adrak-lahsun paste ke sath pressure cooker mein 3 seeti tak pakayein.", "Alag kadhai mein ghee garam karke tale hue pyaaz ka paste aur korma masala daalkar bhunein.", "Ab mutton mix karein aur halki aanch par kaju paste ke sath gaadha gravy hone tak dum par rakhein."] },
+            { id: "idli_sambhar", name: "Idli Sambhar", isMajor: false, ingredients: [{ name: "Idli Ka Ghol (ML)", baseQty: 120, unitType: "grams" }, { name: "Arhar Dal (Grams)", baseQty: 40, unitType: "grams" }, { name: "Sambhar Masala (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Imli Ka Ras (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }], steps: ["Idli ghol ko sanchon (molds) mein daalkar bhaap mein 10 minute tak pakaayein.", "Arhar dal ko sabjiyon, namak aur sambhar masala ke sath cooker mein acche se ubaal lein.", "Dal mein imli ka ras aur rai-kadi patta ka tadka lagakar garam idli ke sath parosein."] },
+            { id: "rajma_chawal", name: "Rajma Chawal", isMajor: false, ingredients: [{ name: "Bheege Hue Rajma (Grams)", baseQty: 80, unitType: "grams" }, { name: "Basmati Chawal (Grams)", baseQty: 100, unitType: "grams" }, { name: "Pyaaz Tamatar Gravy Base", baseQty: 1, unitType: "count" }, { name: "Rajma Masala (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2.5, unitType: "pinch" }], steps: ["Rajma ko namak ke sath bilkul naram hone tak pressure cooker mein acche se ubaal lein.", "Kadhai mein pyaaz, tamatar aur garam masale ka tadka lagakar uble rajma ko 15 minute tak ubaal lein.", "Alag se jeera rice banayein aur garam rajma ke upar thoda sa makkhan daalkar maze se khaayein."] },
+            { id: "chicken_tikka", name: "Chicken Tikka Masala", isMajor: false, ingredients: [{ name: "Chicken Boneless (Grams)", baseQty: 150, unitType: "grams" }, { name: "Tikka Gravy Paste (Chammach)", baseQty: 3, unitType: "spoons" }, { name: "Makkhan (Grams)", baseQty: 15, unitType: "grams" }, { name: "Taaja Cream (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Namak (Chutki)", baseQty: 2, unitType: "pinch" }], steps: ["Chicken pieces ko tikka masale ke sath milakar pan ya oven mein acche se pakaayein.", "Makkhan mein tandoori tikka gravy base, bache masale aur pakaye hue chicken ko daal dein.", "Cream aur hara dhaniya upar se sajaakar (garnish karke) garmagaram serve karein."] }, 
+            { id: "gulab_jamun", name: "Halwai Style Gulab Jamun", isMajor: false, ingredients:
+[{ name: "Khoya/Mawa (Grams)", baseQty: 200,
+unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" },
+{ name: "Baking powder (Chutki)", baseQty: 1, unitType:
+"pinch" }, { name: "Cheeni (Cup)", baseQty: 2, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 2, unitType: "cup" }, { name: "Hari Elaichi (Piece)", baseQty: 4, unitType: "pieces" }, { name: "Kesar (Dhaage)", baseQty: 5, unitType: "pieces" }, { name: "Ghee ya Tel", baseQty: 1, unitType: "as_needed" }], steps:
+["Ek bartan mein cheeni aur paani dalkar ubaal aane dein. Elaichi aur kesar dalein. Ise 5 minute pakayein jab tak yeh halki chipchipi na ho jaye (tar nahi banana hai). Gas band karein.", "Khoya mein maida aur baking powder dalein. Haath ki hatheli (palm) se ise acche se maslein (knead karein) jab tak yeh ek dum smooth soft dough na ban jaye.", "Is dough se choti-choti gol gol goliyan (balls) banayein. Dhian rahe inme koi crack (darar) nahi honi chahiye, nahi toh tel mein fat jayengi.", "Kadhai mein ghee/tel ko bilkul dheemi aanch (low heat) par garm karein. Gulab jamun ko dalein aur bina chhue, karchi se tel ko ghumayein.", "Dheere-dheere unhe dark golden-brown hone tak fry karein aur nikal kar turant garm chashni mein daal dein. 2 ghante baad parosein."] }, 
+              { id: "bengali_rasgulla", name: "Spongy Rasgulla (Bengali Style)", isMajor: false, ingredients: [
+{ name: "Taza Doodh Full Cream (Litre)", baseQty: 1, unitType: "litres" }, { name: "Nimbu ka ras ya Sirka (Chammach)", baseQty: 2, unitType: "spoons" },
+{ name: "Cheeni (Cup)", baseQty: 1.5, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 4.5, unitType: "cup" }], steps:
+["Doodh ko ubalein, gas band karein aur thoda-thoda nimbu ka ras dalkar doodh ko phad lein. Chenna (paneer) ko kapde mein dho kar saaf paani se nichod lein aur 30 minute tang kar rakh dein taaki extra pani nikal jaye.",
+"Chenna ko ek plate par nikalein aur hatheli se 5-7 minute tak maslein jab tak woh makkhan jaisa smooth na ho jaye. Ab iski choti-choti smooth goliyan bana lein.",
+"Kadhai mein 1.5 cup cheeni aur 4.5 cup paani dalkar tez aanch par ubalein.",
+"Jab paani zor se ubalne lage, toh chenna ki goliyan ek-ek karke ubalte paani mein daal dein.",
+"Kadhai ko dhak dein aur high flame par 15 minute tak ubalne edin. Rasgulle phool kar double ho jayenge. Inhe thanda karke fridge mein rakhein."] },
+  { id: "kurkuri_jalebi", name: "Kurkuri Jalebi (Instant - Bina Khameer Ke)", isMajor: false, ingredients: [
+{ name: "Maida (Cup)", baseQty: 1, unitType: "cup" }, { name: "Dahi Khatta (Chammach)", baseQty: 2, unitType: "spoons" },
+{ name: "Eno Fruit Salt (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Haldi ya Orange Food Color (Chutki)", baseQty: 1, unitType: "pinch" },
+{ name: "Cheeni (Cup)", baseQty: 1.5, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Elaichi powder (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Ghee ya Tel", baseQty: 1, unitType: "as_needed" }], steps:
+["Pehle cheeni, paani aur elaichi ko ubal kar 1-tar se thodi kam chipchipi chashni bana kar garm rakh lein.",
+"Maida mein dahi, food color aur thoda paani dalkar ek gaadha aur smooth ghol bana lein. Aakhiri mein Eno dalkar halke haath se mix karein (batter phool jayega).",
+"Is batter ko kisi sauce ki botal ya doodh ki thaili mein dalkar kone mein chota chhed kar lein.",
+"Ek flat (chapte) pan mein ghee garm karein (medium heat). Botal ko gol-gol ghumate hue jalebi ka shape banayein.",
+"Dono taraf se crispy sunehra fry karein aur nikal kar turant garm chashni mein 1 minute ke liye duba edin. Kurkuri jalebi taiyar!"] },
+  { id: "chawal_kheer", name: "Chawal ki Kheer (Classic Indian Rice Pudding)", isMajor: false, ingredients: [
+{ name: "Full Cream Doodh (Litre)", baseQty: 1, unitType: "litres" }, { name: "Basmati Tukda Chawal (Cup)", baseQty: 0.25, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 0.5, unitType: "cup" }, { name: "Dry fruits (Chammach)", baseQty: 2, unitType: "spoons" },
+{ name: "Elaichi powder (Chammach)", baseQty: 0.5, unitType: "spoons" }], steps:
+["Ek bade bhari tale wale bartan mein doodh ko ubalne ke liye rakhein.",
+"Jab doodh mein ubaal aa jaye, toh bhige hue chawal ka paani nikal kar doodh mein daal dein. Gas ko dheema kar dein.",
+"Dheemi aanch par doodh ko lagatar beech-beech mein chalate hue tab tak pakayein jab tak chawal poori tarah gal na jaye aur doodh gaadha hokar aadha na reh jaye (karib 25-30 minute).",
+"Ab ismein cheeni aur saare kate hue dry fruits daal dein. Cheeni ghulne tak 5 minute aur pakayein.",
+"Aakhiri mein elaichi powder dalein, mix karein aur chahein toh garam parosein ya fridge mein thandi karke."] },
+  { id: "sooji_halwa", name: "Sooji ka Halwa (Ashtami Style)", isMajor: false, ingredients: [
+{ name: "Sooji Rava (Cup)", baseQty: 1, unitType: "cup" }, { name: "Ghee (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 1, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 3, unitType: "cup" },
+{ name: "Dry fruits aur Elaichi powder", baseQty: 1, unitType: "as_needed" }], steps:
+["Ek pan mein 3 cup paani aur 1 cup cheeni dalkar garam karein taaki cheeni ghul jaye (chaashni nahi banani, bas paani garam karna hai).",
+"Kadhai mein 1 cup ghee garm karein, usmein dry fruits ko halka fry karke nikal lein.",
+"Usi ghee mein 1 cup sooji dalein aur bilkul dheemi aanch par sunehra (golden brown) hone tak aur khushbu aane tak bhoonein.",
+"Ab gas dheema rakhte hue garm cheeni ka paani dheere-dheere sooji mein dalein (dhian se, chinte aate hain).",
+"Lagatar chalayein, sooji saara pani sokh legi. Fried dry fruits aur elaichi powder dalein aur jab halwa kadhai ka tala chodne lage, toh gas band kar dein."] },
+  { id: "gajar_halwa", name: "Gajar ka Halwa (Winter Special - Bina Mawa)", isMajor: false, ingredients: [
+{ name: "Gajar Ghisi hui (Grams)", baseQty: 500, unitType: "grams" }, { name: "Full Cream Doodh (Litre)", baseQty: 1, unitType: "litres" },
+{ name: "Cheeni (Cup)", baseQty: 0.75, unitType: "cup" }, { name: "Ghee (Chammach)", baseQty: 4, unitType: "spoons" },
+{ name: "Elaichi powder aur Dry fruits (Chammach)", baseQty: 2, unitType: "spoons" }], steps:
+["Kadhai mein 1 chammach ghee garm karke ghisi hui gajar dalein aur 5 minute tak bhun lein taaki gajar ka kachapan chala jaye.",
+"Ab ismein 1 litre doodh daal dein aur mix karein. Gas ko medium-high par rakhein.",
+"Doodh ko gajar ke sath ubalne edin. Beech-beech mein chalate rahein jab tak doodh poori tarah sookh na jaye (ismein 30-40 minute lagenge).",
+"Jab doodh bilkul sookh jaye aur khoya jaisa ban jaye, tab ismein cheeni aur bacha hua ghee dalein.",
+"Cheeni paani chodegi, ise high flame par lagatar chalate hue sukhayein. Aakhiri mein dry fruits aur elaichi powder dalkar bhun lein aur garam-garam parosein."] },
+  { id: "moong_dal_halwa", name: "Moong Dal Halwa (Shaadi Style)", isMajor: false, ingredients: [
+{ name: "Moong Dal Powder (Cup)", baseQty: 1, unitType: "cup" }, { name: "Ghee (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Doodh (Cup)", baseQty: 2, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 1, unitType: "cup" }, { name: "Elaichi powder (Chammach)", baseQty: 0.5, unitType: "spoons" }], steps:
+["Ek pan mein doodh, pani aur cheeni ko garm karke mix kar lein taaki cheeni ghul jaye.",
+"Kadhai mein 1 cup ghee garm karein aur pisi hui moong dal ka powder daal dein.",
+"Bilkul dheemi aanch par dal ko tab tak bhoonein jab tak uska rang badami na ho jaye aur ghee alag na dikhne lage (is-se sabse zyada mehnat lagti hai).",
+"Ab garm doodh-cheeni ka ghol dheere-dheere bhuni dal mein dalein aur bina ruke chalayein taaki lumps na banein.",
+"Dheemi aanch par tab tak pakayein jab tak halwa gaadha na ho jaye aur side se ghee na chodne lage. Elaichi powder dalkar serve karein."] },
+  { id: "shahi_tukda", name: "Shahi Tukda (Mughlai Dessert)", isMajor: false, ingredients: [
+{ name: "Bread Slices (Count)", baseQty: 4, unitType: "count" }, { name: "Rabdi (Cup)", baseQty: 2, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 1, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 0.5, unitType: "cup" },
+{ name: "Ghee", baseQty: 1, unitType: "as_needed" }], steps:
+["Kadhai mein ghee garm karein aur triangle kate bread ke tukdon ko high flame par ek dum crispy aur golden brown hone tak deep fry kar lein.",
+"In fried bread slices ko garm chashni mein sirf 30 second ke liye dubaen aur plate mein nikal kar rakhein.",
+"Serving plate mein chashni lagi bread rakhein, upar se dher saari gaadhi matted rabdi phailayein.",
+"Upar se kate hue badam, pista aur chandi ka warq lagakar shahi tarike se parosein."] },
+  { id: "rasmalai", name: "Rasmalai (Halwai Jaisi Soft)", isMajor: false, ingredients: [
+{ name: "Rasgulla pieces (Count)", baseQty: 8, unitType: "count" }, { name: "Full Cream Doodh (Litre)", baseQty: 1, unitType: "litres" },
+{ name: "Cheeni (Cup)", baseQty: 0.5, unitType: "cup" }, { name: "Kesar (Dhaage)", baseQty: 12, unitType: "pieces" },
+{ name: "Elaichi powder (Chammach)", baseQty: 0.5, unitType: "spoons" }], steps:
+["Ek bhari bartan mein 1 litre doodh ko ubalne rakhein. Ismein kesar, elaichi powder aur thode dry fruits daal dein.",
+"Doodh ko medium aanch par pakakar 50% (aadha) kar lein taaki ras gaadha aur peela ho jaye. Phir cheeni dalkar 2 minute pakayein aur gas band kar dein.",
+"Bazaar se laye ya banaye hue rasgullo ko hatheliyon ke beech rakh kar halke haath se dabayein taaki unki saari chashni nikal jaye.",
+"In dabe hue rasgullo ko garm-garm kesar wale doodh (ras) mein daal dein.",
+"2-3 ghante ke liye fridge mein thanda hone rakhein taaki rasgulle saara ras sokh lein aur ek dum raseele ho jayein."] },
+  { id: "atta_halwa", name: "Atta Halwa (Kada Prasad Style)", isMajor: false, ingredients: [
+{ name: "Gehu ka Aata (Cup)", baseQty: 1, unitType: "cup" }, { name: "Ghee (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 1, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 3, unitType: "cup" }], steps:
+["Ek pan mein 3 cup paani aur 1 cup cheeni dalkar garam kar lein (cheeni ghulne tak).",
+"Kadhai mein 1 cup ghee garm karein aur 1 cup aata daal dein.",
+"Gas ko low-medium par rakhein aur aate ko lagatar chalate hue gehra sunehra (dark golden-brown) hone tak bhoonein. Aate se badhiya khushbu aane lagegi.",
+"Ab garm cheeni ka paani dheere-dheere dalein aur bina ruke karchi chalayein taaki koi gaanth na pade.",
+"Halwa turant paani sokh lega aur ghee chodne lagega. Ek dum smooth aur muah mein ghulne wala Kada Prasad taiyar hai."] },
+  { id: "besan_laddoo", name: "Besan ke Laddoo", isMajor: false, ingredients: [
+{ name: "Besan (Cup)", baseQty: 2, unitType: "cup" }, { name: "Ghee (Cup)", baseQty: 0.5, unitType: "cup" },
+{ name: "Boora Tagar (Cup)", baseQty: 1, unitType: "cup" }, { name: "Elaichi powder (Chammach)", baseQty: 0.5, unitType: "spoons" }], steps:
+["Kadhai mein ghee garm karein aur besan daal dein.",
+"Bilkul dheemi aanch par besan ko 20-25 minute tak bhun lein jab tak uska rang sunhera na ho jaye aur usmein se ghee alag na hone lage.",
+"Tip: Bhunte waqt aakhiri mein 1 chammach pani ka chita marein, is-se besan daanedar ho jata hai.",
+"Besan ko ek plate mein nikal kar halka thanda hone edin (itna thanda ki aap haath se chhu sakein). Agar garm mein cheeni dalenge toh pani chod dega.",
+"Halke garm besan mein boora/cheeni aur elaichi powder milayein. Haath se mix karke gol-gol laddoo baandh lein."] },
+  { id: "seviyan_kheer", name: "Seviyan Kheer (Vermicelli Payasam)", isMajor: false, ingredients: [
+{ name: "Seviyan (Cup)", baseQty: 0.5, unitType: "cup" }, { name: "Doodh (Ml)", baseQty: 500, unitType: "ml" },
+{ name: "Cheeni (Cup)", baseQty: 0.25, unitType: "cup" }, { name: "Ghee (Chammach)", baseQty: 1, unitType: "spoons" },
+{ name: "Dry fruits aur Elaichi powder", baseQty: 1, unitType: "as_needed" }], steps:
+["Pan mein 1 chammach ghee garm karke seviyan ko sunehra hone tak roast kar lein (agar roasted hain toh bhi 1 minute ghee mein bhun lein).",
+"Ek bartan mein doodh ubaal lein. Ubalte doodh mein roasted seviyan daal dein.",
+"Medium aanch par 8-10 minute tak pakayein jab tak seviyan naram na ho jayein aur doodh halka gaadha na ho jaye.",
+"Cheeni, elaichi powder aur dry fruits dalein. Cheeni ghulne tak 2 minute aur pakayein aur gas band kar dein. Ise thanda ya garm jaise chahein khayein."] },
+  { id: "traditional_rabdi", name: "Rabdi (Traditional Lacchedar)", isMajor: false, ingredients: [
+{ name: "Full Cream Doodh (Litre)", baseQty: 1.5, unitType: "litres" }, { name: "Cheeni (Chammach)", baseQty: 3, unitType: "spoons" },
+{ name: "Elaichi powder (Chammach)", baseQty: 0.25, unitType: "spoons" }, { name: "Kesar aur Pista katar", baseQty: 1, unitType: "as_needed" }], steps:
+["Ek chade tale ki kadhai mein doodh ubalne rakhein.",
+"Jab doodh ubalne lage, toh upar aane wali malai (cream) ko karchi se kadhai ke kinaron par chipkate (chipkana) jayein.",
+"Gas ko dheema rakhein aur doodh ko pakhne edin. Har baar malai ko side mein lagate jayein.",
+"Jab doodh pak kar sirf 1/3 (one-third) reh jaye, toh kinaron par jami saari malai ko khurech (scrape) kar wapas doodh mein mila dein. Is-se lacche banenge.",
+"Cheeni, elaichi aur kesar dalein, 2 minute pakayein aur gas band kar dein. Fridge mein thanda karke parosein."] },
+  { id: "makhana_kheer", name: "Makhana Kheer (Vrat Special)", isMajor: false, ingredients: [
+{ name: "Makhana Fox nuts (Cup)", baseQty: 2, unitType: "cup" }, { name: "Doodh (Ml)", baseQty: 500, unitType: "ml" },
+{ name: "Ghee (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Cheeni (Cup)", baseQty: 0.25, unitType: "cup" },
+{ name: "Dry fruits aur Elaichi powder", baseQty: 1, unitType: "as_needed" }], steps:
+["Pan mein ghee garm karke makhana ko low flame par kurkura (crispy) hone tak roast kar lein.",
+"Roasted makhana thanda karke adha makhana haath se ya mixer mein dardara koot lein aur adha sabut rakhein (is-se kheer gaadhi banti hai).",
+"Doodh ko ubaal lein, phir usmein saare makhane (koota hua aur sabut) daal dein.",
+"Medium aanch par 10-12 minute pakayein jab tak makhana soft na ho jaye aur doodh rabdi jaisa na lagne lage.",
+"Cheeni, dry fruits aur elaichi powder dalkar mix karein aur 2 minute baad gas band kar dein."] },
+  { id: "malpua_sweet", name: "Malpua (Instant & Juicy)", isMajor: false, ingredients: [
+{ name: "Maida (Cup)", baseQty: 1, unitType: "cup" }, { name: "Sooji (Chammach)", baseQty: 2, unitType: "spoons" },
+{ name: "Khoya ya Malai (Chammach)", baseQty: 2, unitType: "spoons" }, { name: "Doodh (Cup)", baseQty: 1, unitType: "cup" },
+{ name: "Cheeni (Cup)", baseQty: 1, unitType: "cup" }, { name: "Paani (Cup)", baseQty: 0.5, unitType: "cup" },
+{ name: "Ghee", baseQty: 1, unitType: "as_needed" }], steps:
+["Maida, sooji, malai aur thoda-thoda doodh dalkar ek smooth pheta hua ghol (batter) bana lein jo jhatpat phail sake. Ise 15 minute rest dein.",
+"Ek flat pan mein ghee garm karein (medium heat). Ek karchi batter lekar pan ke beech mein dhian se daal kar chota uttapam jaisa phailayein.",
+"Dheemi aanch par dono taraf se sunehra aur kinaron se crispy hone tak fry kar lein.",
+"Malpua ko nikal kar turant garm chashni mein 2 minute ke liye dubaen, phir nikal kar upar se rabdi ya dry fruits dalkar serve karein."] }, 
+        ];
+
+        // SESSION STATE ENGINE MANAGEMENT DATA ARCHITECTURE
+        let activeRecipeContext = null;
+        let activeViewHistoryStack = ['home-page'];
+
+        // HELPER FUNCTION: CONVERT FLOATS INTO SIMPLIFIED HINGLISH TEXT TERMS
+        function formatMetricQuantityToHinglish(qty, unit) {
+            if (unit !== "spoons" && unit !== "count") {
+                return Number(qty.toFixed(1)).toString();
+            }
+            // Fraction mappings requested by user
+            if (qty === 0.25) return "Chauthai (1/4)";
+            if (qty === 0.5) return "Aadha (1/2)";
+            if (qty === 0.75) return "Pouna (3/4)";
+            
+            // Handle compound decimals gracefully like 1.5, 2.5 etc
+            let integerPart = Math.floor(qty);
+            let decimalPart = qty - integerPart;
+            
+            if (decimalPart === 0) return integerPart.toString();
+            if (decimalPart === 0.5) return `${integerPart} Aur Aadha (1/2)`;
+            if (decimalPart === 0.25) return `${integerPart} Aur Chauthai (1/4)`;
+            if (decimalPart === 0.75) return `${integerPart} Aur Pouna (3/4)`;
+            
+            return Number(qty.toFixed(2)).toString();
+        }
+
+        // INITIALIZATION LIFECYCLE ENGINE RUNNER
+        window.addEventListener('DOMContentLoaded', () => {
+            initializePortionDropdownMenuOptions();
+            buildMajorDishesUIPanel();
+            buildComprehensiveDirectoryMenu();
+            renderUserHistoryLogsDOM();
+
+            // SPLASH SCREEN DISPLAY CONTROLLER TIMER PIPELINE
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                const canvas = document.getElementById('app-canvas');
+                
+                if(splash) splash.classList.add('opacity-0');
+                if(canvas) canvas.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    if(splash) splash.remove();
+                }, 700);
+            }, 3000); // Strict 3 second presentation frame
+        });
+
+        // INJECT QUANTITY PORTION CONTROL OPTION NODES
+        function initializePortionDropdownMenuOptions() {
+            const dropdown = document.getElementById('serving-dropdown');
+            dropdown.innerHTML = "";
+            for (let i = 1; i <= 30; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `${i} Person ${i === 1 ? '(Base Measure)' : 'Ki Servings'}`;
+                dropdown.appendChild(opt);
+            }
+        }
+
+        // GENERATE TOP 5 MAJOR DISHES UI ELEMENTS
+        function buildMajorDishesUIPanel() {
+            const container = document.getElementById('major-dishes-grid');
+            const majorDishes = recipesDatabase.filter(r => r.isMajor);
+            container.innerHTML = "";
+
+            majorDishes.forEach(dish => {
+                const item = document.createElement('div');
+                // Included subtle premium metallic red border modifications over standard premium design
+                item.className = "clickable flex justify-between items-center bg-black/70 border border-red-900/40 hover:border-[#D4AF37] rounded-xl p-3.5 cursor-pointer transition-all duration-300";
+                item.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(dish.id); };
+                item.innerHTML = `
+                    <span class="text-white font-semibold tracking-wide text-base">${dish.name}</span>
+                    <span class="premium-shine-btn text-xs uppercase font-extrabold tracking-widest px-3 py-1.5 rounded-md bg-gradient-to-r from-[#1E3A8A] via-[#991B1B] to-[#1E3A8A] border border-[#D4AF37]/40 text-white">View</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // GENERATE ALL DISHES MENU SCREEN DIRECTORY LAYOUT
+        function buildComprehensiveDirectoryMenu() {
+            const container = document.getElementById('full-directory-list');
+            container.innerHTML = "";
+
+            recipesDatabase.forEach((dish, idx) => {
+                const row = document.createElement('div');
+                row.className = "clickable flex justify-between items-center p-3.5 rounded-xl border border-neutral-800/60 bg-neutral-900/50 hover:bg-black/80 cursor-pointer transition-all";
+                row.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(dish.id); };
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-mono font-bold text-[#D4AF37]">${String(idx+1).padStart(2, '0')}.</span>
+                        <span class="text-white font-medium text-sm md:text-base">${dish.name}</span>
+                    </div>
+                    <span class="text-xs font-serif italic text-red-500/80">Royal Choice</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // NAVIGATION COMPONENT MANAGER
+        function showPage(pageId) {
+            triggerClickSound();
+            
+            // Toggle view panels visibility fields
+            ['home-page', 'recipe-detail-page', 'directory-page', 'history-page'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Tracking stack arrays update processing
+            if(activeViewHistoryStack[activeViewHistoryStack.length - 1] !== pageId) {
+                activeViewHistoryStack.push(pageId);
+            }
+
+            // Sync structural CSS configurations over active bottom nav nodes
+            const homeBtn = document.getElementById('nav-btn-home');
+            const histBtn = document.getElementById('nav-btn-history');
+
+            if (pageId === 'home-page') {
+                homeBtn.classList.remove('text-gray-500');
+                homeBtn.querySelector('span').classList.remove('text-gray-400');
+                homeBtn.classList.add('text-[#D4AF37]');
+                homeBtn.querySelector('span').classList.add('text-white');
+
+                histBtn.classList.add('text-gray-500');
+                histBtn.querySelector('span').classList.add('text-gray-400');
+                histBtn.classList.remove('text-[#D4AF37]');
+                histBtn.querySelector('span').classList.remove('text-white');
+            } else if (pageId === 'history-page') {
+                histBtn.classList.remove('text-gray-500');
+                histBtn.querySelector('span').classList.remove('text-gray-400');
+                histBtn.classList.add('text-[#D4AF37]');
+                histBtn.querySelector('span').classList.add('text-white');
+
+                homeBtn.classList.add('text-gray-500');
+                homeBtn.querySelector('span').className = "text-xs font-bold uppercase tracking-widest text-gray-400";
+                homeBtn.classList.remove('text-[#D4AF37]');
+            }
+        }
+
+        function navigateToDirectory() {
+            showPage('directory-page');
+        }
+
+        function returnToPreviousView() {
+            triggerClickSound();
+            if (activeViewHistoryStack.length > 1) {
+                activeViewHistoryStack.pop(); 
+                const prev = activeViewHistoryStack[activeViewHistoryStack.length - 1];
+                
+                ['home-page', 'recipe-detail-page', 'directory-page', 'history-page'].forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+                document.getElementById(prev).classList.remove('hidden');
+            } else {
+                showPage('home-page');
+            }
+        }
+
+        // AUTOCOMPLETE ENGINE FILTER PROCESSING SEARCH CONTROLLER
+        function handleSearchInput(e) {
+            const value = e.target.value.trim().toLowerCase();
+            const box = document.getElementById('search-autocomplete-box');
+
+            if (!value) {
+                box.classList.add('hidden');
+                return;
+            }
+
+            const matches = recipesDatabase.filter(r => r.name.toLowerCase().includes(value));
+
+            if (e.key === 'Enter') {
+                box.classList.add('hidden');
+                if (matches.length > 0) {
+                    displayRecipeDetailViewer(matches[0].id);
+                    e.target.value = "";
+                } else {
+                    triggerAdminBackendNotificationAlert(e.target.value);
+                    e.target.value = "";
+                }
+                return;
+            }
+
+            box.innerHTML = "";
+            if (matches.length === 0) {
+                const missingNode = document.createElement('div');
+                missingNode.className = "p-3 text-xs font-medium text-red-400 bg-black cursor-pointer border-b border-neutral-800/60";
+                missingNode.innerText = `Koi match nahi mila. Create/Owner ko alert bhejein!`;
+                missingNode.onclick = () => {
+                    triggerAdminBackendNotificationAlert(e.target.value);
+                    box.classList.add('hidden');
+                    e.target.value = "";
+                };
+                box.appendChild(missingNode);
+            } else {
+                matches.forEach(m => {
+                    const node = document.createElement('div');
+                    node.className = "p-3 text-sm text-white hover:bg-[#991B1B] font-medium cursor-pointer transition-colors border-b border-neutral-800/40";
+                    node.innerText = m.name;
+                    node.onclick = () => {
+                        displayRecipeDetailViewer(m.id);
+                        box.classList.add('hidden');
+                        e.target.value = "";
+                    };
+                    box.appendChild(node);
+                });
+            }
+            box.classList.remove('hidden');
+        }
+
+        function triggerAdminBackendNotificationAlert(typedName) {
+            triggerClickSound();
+            const alertBox = document.getElementById('admin-notification');
+            document.getElementById('missing-dish-name').innerText = `"${typedName}"`;
+            alertBox.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        // LOAD DISH AND RENDER INTERNAL QUANTITY MATRICES VIEW SCREEN
+        function displayRecipeDetailViewer(dishId) {
+            const recipe = recipesDatabase.find(r => r.id === dishId);
+            if (!recipe) return;
+
+            activeRecipeContext = recipe;
+            triggerSuccessSound();
+
+            document.getElementById('detail-dish-title').innerText = recipe.name;
+            document.getElementById('serving-dropdown').value = "1";
+
+            // Map and paint quantities metric configurations arrays layout interface
+            recalculateIngredientsMetrics(1);
+
+            // Print sequential ordered dynamic procedural lines
+            const stepsUl = document.getElementById('detail-steps-list');
+            stepsUl.innerHTML = "";
+            recipe.steps.forEach((step, index) => {
+                const li = document.createElement('li');
+                li.className = "flex gap-3 items-start bg-neutral-900/50 p-3.5 rounded-xl border border-red-950/40 glass-panel";
+                li.innerHTML = `
+                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-[#991B1B] to-black text-[#D4AF37] border border-[#D4AF37]/40 font-mono text-xs font-bold flex items-center justify-center mt-0.5">
+                        ${index + 1}
+                    </span>
+                    <p class="text-gray-200 text-sm md:text-base leading-relaxed font-light">${step}</p>
+                `;
+                stepsUl.appendChild(li);
+            });
+
+            // LOG SEARCH/VISIT TRACK RECORD EVENT MATRIX DATA INSIGHT IN LOCAL STATE RECORDERS
+            recordLogEventToLocalHistoryAsset(recipe.id, recipe.name);
+
+            // Display Detail Frame View Panel Interface
+            ['home-page', 'directory-page', 'history-page'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById('recipe-detail-page').classList.remove('hidden');
+            activeViewHistoryStack.push('recipe-detail-page');
+        }
+
+        // DYNAMIC ALGORITHM MULTIPLIER WITH HUMANIZED HINGLISH VALUE TRANSITIONS
+        function recalculateIngredientsMetrics(factorValue) {
+            if (!activeRecipeContext) return;
+            const multiplier = parseInt(factorValue) || 1;
+            const container = document.getElementById('detail-ingredients-list');
+            container.innerHTML = "";
+
+            activeRecipeContext.ingredients.forEach(ing => {
+                const calculatedQty = (ing.baseQty * multiplier);
+                
+                // Humanize fractional fractions instead of hard code decimals!
+                const humanizedMetricText = formatMetricQuantityToHinglish(calculatedQty, ing.unitType);
+
+                const li = document.createElement('li');
+                li.className = "flex justify-between items-center py-2 px-3 border-b border-neutral-900 rounded-lg hover:bg-neutral-900/40 transition-colors";
+                li.innerHTML = `
+                    <span class="text-white/90 text-sm font-medium tracking-wide">▪ ${ing.name}</span>
+                    <span class="font-mono text-sm font-bold tracking-wider px-2.5 py-0.5 rounded bg-red-500/10 text-[#D4AF37] border border-red-500/20">
+                        ${humanizedMetricText}
+                    </span>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        // HISTORY MANAGER ENGINE WITH DYNAMIC REDIRECT ACTION LINK INTERFACES
+        function recordLogEventToLocalHistoryAsset(dishIdString, dishNameString) {
+            let logs = [];
+            try {
+                logs = JSON.parse(localStorage.getItem('royal_recipe_history_logs')) || [];
+            } catch(e) { logs = []; }
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateStr = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+            const itemLogNode = {
+                id: dishIdString,
+                name: dishNameString,
+                timestamp: `${dateStr}, ${timeStr}`,
+                indexId: Date.now() + Math.random().toString(36).substr(2, 5)
+            };
+
+            // Avoid double push redundancy logic
+            logs = logs.filter(item => item.id !== dishIdString);
+
+            logs.unshift(itemLogNode); 
+            localStorage.setItem('royal_recipe_history_logs', JSON.stringify(logs));
+            renderUserHistoryLogsDOM();
+        }
+
+        function renderUserHistoryLogsDOM() {
+            const container = document.getElementById('history-logs-container');
+            container.innerHTML = "";
+            
+            let logs = [];
+            try {
+                logs = JSON.parse(localStorage.getItem('royal_recipe_history_logs')) || [];
+            } catch(e) { logs = []; }
+
+            if (logs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 text-sm font-medium">
+                        Koi history record nahi hai.<br>Dish dekhna shuru karein!
+                    </div>
+                `;
+                return;
+            }
+
+            logs.forEach((log, idx) => {
+                const li = document.createElement('li');
+                // Made click trigger actionable profile loading engine hook architecture!
+                li.className = "clickable flex items-center justify-between p-3.5 bg-neutral-950/90 border border-neutral-800 hover:border-[#D4AF37] rounded-xl shadow-md cursor-pointer transition-all duration-200";
+                li.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(log.id); };
+                li.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-mono font-bold bg-red-500/10 text-[#D4AF37] w-6 h-6 rounded-full flex items-center justify-center border border-red-500/20">
+                            ${idx + 1}
+                        </span>
+                        <div>
+                            <p class="text-white text-sm font-bold tracking-wide">${log.name}</p>
+                            <p class="text-[10px] font-mono text-gray-400">Dekha gaya: ${log.timestamp}</p>
+                        </div>
+                    </div>
+                    <span class="premium-shine-btn text-[10px] uppercase font-bold tracking-widest text-white border border-red-900 px-2.5 py-1 rounded bg-[#991B1B]">
+                        OPEN
+                    </span>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        function clearUserHistoryLog() {
+            triggerClickSound();
+            localStorage.removeItem('royal_recipe_history_logs');
+            renderUserHistoryLogsDOM();
+        }
+    </script>
+</body>
+</html>
