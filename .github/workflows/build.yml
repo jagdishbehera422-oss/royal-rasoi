@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -25,13 +25,20 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Capacitor & Dependencies
+      - name: Install Dependencies & Init Capacitor
         run: |
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
           mkdir -p www
           cp index.html www/
-          npx cap init "Royal Rasoi" "com.royalrasoi.app" --web-dir www
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.royalrasoi.app",
+            "appName": "Royal Rasoi",
+            "webDir": "www",
+            "bundledWebRuntime": false
+          }
+          EOF
           npx cap add android
 
       - name: Build Debug APK & Release Bundle
