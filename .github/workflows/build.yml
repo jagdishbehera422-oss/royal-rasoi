@@ -41,8 +41,6 @@ jobs:
           EOF
           npx cap add android
           sed -i 's/minSdkVersion = 22/minSdkVersion = 24/g' android/variables.gradle
-          sed -i 's/targetSdkVersion = 33/targetSdkVersion = 35/g' android/variables.gradle
-          sed -i 's/compileSdkVersion = 33/compileSdkVersion = 35/g' android/variables.gradle
 
       - name: Build Debug APK
         run: |
