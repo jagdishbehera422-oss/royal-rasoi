@@ -55,7 +55,7 @@ jobs:
 
       - name: Sign Release AAB
         run: |
-          keytool -genkey -v -keystore royal-rasoi-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias royalrasoi -storepass royal1234 -keypass royal1234 -dname "CN=Jagdish Behera, OU=Apex Forge Studio, O=Apex Forge Studio, L=Kunda, S=UP, C=IN"
+         
           jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore royal-rasoi-key.jks android/app/build/outputs/bundle/release/app-release.aab royalrasoi -storepass royal1234
 
       - name: Upload Test APK
