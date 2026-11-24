@@ -1505,9 +1505,9 @@ renderSmartDishPairings(recipe);
                 utterance.lang = 'hi-IN';
             }
 
-            utterance.rate = 0.89;
-            utterance.pitch = 1.32;  // 100% Natural Indian Female vocal pitch
-
+                        utterance.rate = 0.92;
+            utterance.pitch = 1.05;  // Safe pitch for Android WebView TTS engine
+            
             utterance.onend = function () {
                 if (isVoiceSpeaking && !isVoicePaused) {
                     voiceCurrentIndex++;
@@ -1598,12 +1598,20 @@ renderSmartDishPairings(recipe);
 
             voiceSentenceQueue.push(`बस, बन कर रेडी हो चुका है आपका गरमा-गरम ${dishName}! अब आप इसे एंजॉय करें।`);
 
-            voiceCurrentIndex = 0;
-            isVoiceSpeaking = true;
-            isVoicePaused = false;
-            label.innerText = "Pause Voice (Rokein)";
-            speakNextVoiceSentence();
-        }
+            if (!('speechSynthesis' in window)) {
+    alert("Is device par Voice Guide support nahi hai.");
+    return;
+}
+voiceCurrentIndex = 0;
+isVoiceSpeaking = true;
+isVoicePaused = false;
+label.innerText = "Pause Voice (Rokein)";
+setTimeout(() => {
+    if (isVoiceSpeaking && !isVoicePaused) {
+        speakNextVoiceSentence();
+    }
+}, 120);
+}
           
         // DYNAMIC ALGORITHM MULTIPLIER WITH HUMANIZED HINGLISH VALUE TRANSITIONS
         function recalculateIngredientsMetrics(factorValue) {
