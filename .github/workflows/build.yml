@@ -30,7 +30,7 @@ jobs:
       - name: Setup Capacitor & Prepare Web Assets
         run: |
           npm init -y
-          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor-community/text-to-speech@7
           mkdir -p www
           cp index.html www/
           cp -f glass-theme.css www/ || true
@@ -43,10 +43,11 @@ jobs:
           }
           EOF
           npx cap add android
+          npx cap sync android
           sed -i 's/minSdkVersion = .*/minSdkVersion = 24/g' android/variables.gradle
           sed -i 's/compileSdkVersion = .*/compileSdkVersion = 36/g' android/variables.gradle
           sed -i 's/targetSdkVersion = .*/targetSdkVersion = 36/g' android/variables.gradle
-          sed -i 's/versionCode 1/versionCode 5/g' android/app/build.gradle
+          sed -i 's/versionCode 1/versionCode 6/g' android/app/build.gradle
           sed -i 's/versionName "1.0"/versionName "2.0"/g' android/app/build.gradle
           sed -i 's|<application|<queries>\n        <intent>\n            <action android:name="android.intent.action.TTS_SERVICE" />\n        </intent>\n    </queries>\n    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-feature android:name="android.hardware.camera.front" android:required="false" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WAKE_LOCK" />\n    <application|' android/app/src/main/AndroidManifest.xml
 
