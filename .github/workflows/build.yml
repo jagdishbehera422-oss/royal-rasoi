@@ -30,7 +30,7 @@ jobs:
       - name: Setup Capacitor & Prepare Web Assets
         run: |
           npm init -y
-          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor-community/text-to-speech@7
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor-community/text-to-speech --legacy-peer-deps
           mkdir -p www
           cp index.html www/
           cp -f glass-theme.css www/ || true
@@ -53,7 +53,7 @@ jobs:
 
       - name: Generate Custom App Icons & Splash Screen
         run: |
-          npm install @capacitor/assets --save-dev
+          npm install @capacitor/assets --save-dev --legacy-peer-deps
           npx capacitor-assets generate --android
 
       - name: Build Debug APK
