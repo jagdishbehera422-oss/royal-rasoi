@@ -179,14 +179,19 @@
             100% { left: 140%; }
         }
     </style>
+    <link rel="stylesheet" href="glass-theme.css">
+
 </head>
 <body>
 
     <div class="smoke-container">
+        
         <div class="smoke-particle smoke-red"></div>
         <div class="smoke-particle smoke-blue"></div>
         <div class="smoke-particle smoke-gold"></div>
     </div>
+        <div id="dynamic-dish-blur-bg"></div>
+
 
     <script>
         const AudioEngine = {
@@ -260,45 +265,152 @@
                 <button onclick="document.getElementById('admin-notification').classList.add('hidden')" class="text-[#D4AF37] font-bold text-sm ml-2">✕</button>
             </div>
         </div>
+                <!-- FLOATING ROYAL COOKING TIMER BAR -->
+        <div id="floating-cooking-timer" class="fixed bottom-20 left-4 right-4 max-w-md mx-auto z-50 hidden animate-fade">
+            <div class="glass-panel bg-[#0a0a0a]/95 border border-[#D4AF37] rounded-2xl px-4 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.9)] flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#991B1B] to-black border border-[#D4AF37]/50 flex items-center justify-center text-lg">⏱️</span>
+                    <div>
+                        <p id="timer-step-label" class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Cooking Timer</p>
+                        <p id="timer-countdown-display" class="font-mono text-xl font-extrabold text-[#D4AF37] tracking-wider">00:00</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleCookingTimerPause()" id="timer-pause-btn" class="px-3 py-1.5 rounded-lg bg-[#991B1B] border border-[#D4AF37]/40 text-white text-xs font-bold uppercase">Pause</button>
+                    <button onclick="stopAndCloseCookingTimer()" class="w-8 h-8 rounded-lg bg-white/10 text-gray-300 hover:text-white font-bold text-sm">✕</button>
+                </div>
+            </div>
+        </div>
 
-        <main id="home-page" class="w-full max-w-lg mx-auto px-5 pt-8 animate-fade">
+        <main id="home-page" class="w-full max-w-lg mx-auto px-5 pt-6 animate-fade">
             
-            <div class="mb-8">
-                <h2 class="royal-title text-xl text-left tracking-wide mb-3" style="color: #D4AF37;">
-                    Search Dishes
-                </h2>
-                <div class="relative w-full rounded-xl p-[1px] bg-gradient-to-r from-[#D4AF37] via-[#991B1B] to-[#1E3A8A]">
-                    <div class="bg-[#070707] rounded-xl flex items-center px-4 py-3.5">
-                        <span class="text-white mr-3 opacity-90">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <!-- ROYAL BRAND HEADER -->
+            <div class="flex justify-between items-center mb-5">
+                <div>
+                    <p class="text-[10px] tracking-[0.3em] uppercase text-gray-400">Shahi Kitchen Guide</p>
+                    <h1 class="royal-title text-2xl font-extrabold tracking-widest gold-text">ROYAL RASOI</h1>
+                </div>
+                <button onclick="openCategorySubPage('favorites')" class="clickable w-10 h-10 rounded-full glass-panel border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] shadow-lg" title="Saved Favorites">
+                    ❤️
+                </button>
+            </div>
+
+            <!-- GLASS SEARCH BAR -->
+            <div class="mb-6 relative">
+                <div class="relative w-full rounded-2xl p-[1px] bg-gradient-to-r from-[#D4AF37]/70 via-[#991B1B]/60 to-[#1E3A8A]/70">
+                    <div class="bg-[#0a0a0a]/90 backdrop-blur-md rounded-2xl flex items-center px-4 py-3">
+                        <span class="text-[#D4AF37] mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </span>
-                        <input type="text" id="recipe-search-input" placeholder="Yahan dish search karein..." 
-                               class="w-full bg-transparent text-white font-medium placeholder-gray-500 focus:outline-none text-base"
+                        <input type="text" id="recipe-search-input" placeholder="Search your favorite dish..." 
+                               class="w-full bg-transparent text-white font-medium placeholder-gray-400 focus:outline-none text-sm"
                                onkeyup="handleSearchInput(event)">
                     </div>
                 </div>
-                <div id="search-autocomplete-box" class="hidden w-full mt-2 rounded-xl glass-panel border border-[#D4AF37] max-h-60 overflow-y-auto z-50 absolute max-w-md"></div>
+                <div id="search-autocomplete-box" class="hidden w-full mt-2 rounded-xl glass-panel border border-[#D4AF37] max-h-60 overflow-y-auto z-50 absolute left-0 right-0"></div>
             </div>
+          <!-- MERE FRIDGE MEIN KYA HAI? (SMART INGREDIENT SEARCH) -->
+          <div class="mb-6">
+              <button onclick="toggleFridgeFinderPanel()" class="clickable w-full py-2.5 px-4 rounded-2xl glass-panel border border-[#D4AF37]/45 hover:border-[#D4AF37] flex items-center justify-between shadow-md transition-all">
+                  <div class="flex items-center gap-2.5">
+                      <span class="text-lg">🧊</span>
+                      <span class="text-xs font-bold tracking-wider uppercase text-[#D4AF37]">Mere Fridge Mein Kya Hai?</span>
+                  </div>
+                  <span id="fridge-toggle-arrow" class="text-xs font-bold text-gray-400">Select Items ▼</span>
+              </button>
 
-            <div class="mb-8">
-                <h2 class="royal-title text-xl tracking-wide mb-3" style="color: #D4AF37;">
-                    Major Dishes
-                </h2>
-                <div class="rounded-2xl glass-panel p-4 border border-[#D4AF37]/40 shadow-2xl relative">
-                    <div id="major-dishes-grid" class="flex flex-col gap-3 z-10 relative">
-                        </div>
+              <div id="fridge-finder-panel" class="hidden mt-2.5 p-4 rounded-2xl glass-panel border border-[#D4AF37]/40 bg-black/80 shadow-xl animate-fade">
+                  <div class="flex justify-between items-center mb-2.5">
+                      <p class="text-[11px] text-gray-300 font-medium">Ghar mein rakhe ingredients chunein:</p>
+                      <button onclick="clearFridgeIngredients()" class="text-[10px] text-red-400 font-bold uppercase hover:underline">Clear</button>
+                  </div>
+                  <div id="fridge-chips-container" class="flex flex-wrap gap-2 mb-3"></div>
+                  <div id="fridge-results-container" class="space-y-2 max-h-60 overflow-y-auto"></div>
+              </div>
+          </div>
+
+            <!-- COMPACT 1-LINE HORIZONTAL CATEGORY BOXES -->
+            <div class="mb-7">
+                <div class="flex justify-between items-center mb-2.5">
+                    <h2 class="royal-title text-base font-bold tracking-wide text-[#D4AF37]">Explore Categories</h2>
+                    <span class="text-[10px] text-gray-400 tracking-wider uppercase">Swipe ➔</span>
+                </div>
+                <div class="flex gap-2.5 overflow-x-auto pb-2" style="scrollbar-width: none;">
+                    <!-- VEG (FSSAI Green Symbol) -->
+                    <button onclick="openCategorySubPage('veg')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-green-500/40 hover:border-green-400 flex flex-col items-center justify-center gap-1.5 shadow-md">
+                        <span class="w-6 h-6 rounded border-2 border-green-500 flex items-center justify-center bg-black/40">
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white">Veg</span>
+                    </button>
+
+                    <!-- NON-VEG (FSSAI Red Symbol) -->
+                    <button onclick="openCategorySubPage('nonveg')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-red-500/40 hover:border-red-400 flex flex-col items-center justify-center gap-1.5 shadow-md">
+                        <span class="w-6 h-6 rounded border-2 border-red-500 flex items-center justify-center bg-black/40">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                        </span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white">Non-Veg</span>
+                    </button>
+
+                    <!-- DESI KHANA -->
+                    <button onclick="openCategorySubPage('desi')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-[#D4AF37]/40 hover:border-[#D4AF37] flex flex-col items-center justify-center gap-1 shadow-md">
+                        <span class="text-xl leading-none">🍛</span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white text-center leading-tight">Desi<br>Khana</span>
+                    </button>
+
+                    <!-- FOREIGN FOODS -->
+                    <button onclick="openCategorySubPage('foreign')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-[#D4AF37]/40 hover:border-[#D4AF37] flex flex-col items-center justify-center gap-1 shadow-md">
+                        <span class="text-xl leading-none">🍜</span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white text-center leading-tight">Foreign<br>Foods</span>
+                    </button>
+
+                    <!-- DRINKS -->
+                    <button onclick="openCategorySubPage('drinks')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-[#D4AF37]/40 hover:border-[#D4AF37] flex flex-col items-center justify-center gap-1.5 shadow-md">
+                        <span class="text-xl leading-none">🥤</span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white">Drinks</span>
+                    </button>
+
+                    <!-- SWEETS -->
+                    <button onclick="openCategorySubPage('sweets')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-[#D4AF37]/40 hover:border-[#D4AF37] flex flex-col items-center justify-center gap-1.5 shadow-md">
+                        <span class="text-xl leading-none">🍮</span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white">Sweets</span>
+                    </button>
+
+                    <!-- FAVORITES -->
+                    <button onclick="openCategorySubPage('favorites')" class="clickable flex-shrink-0 w-20 h-20 rounded-2xl glass-panel border border-pink-500/40 hover:border-pink-400 flex flex-col items-center justify-center gap-1.5 shadow-md">
+                        <span class="text-xl leading-none">❤️</span>
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-white">Favorites</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="mb-10">
-                <h2 class="royal-title text-xl tracking-wide mb-3" style="color: #D4AF37;">
-                    Make Dishes
-                </h2>
-                <div onclick="navigateToDirectory()" class="clickable premium-shine-btn w-full bg-gradient-to-r from-[#1E3A8A] via-[#991B1B] to-[#1E3A8A] rounded-xl p-4 border border-[#D4AF37] text-center shadow-lg cursor-pointer transition-transform duration-200">
-                    <span class="font-bold tracking-wider text-base text-white block">DISHA DIRECTORY (ALL DISHES)</span>
+            <!-- HORIZONTAL SWIPE SECTION 1: SUGGESTED DISHES -->
+            <div class="mb-7">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="royal-title text-base font-bold tracking-wide text-[#D4AF37]">Suggested Dishes <span class="font-sans text-[11px] font-normal text-gray-400">(Top Picks)</span></h2>
+                    <button onclick="openCategorySubPage('all')" class="text-xs font-semibold text-[#D4AF37] hover:underline">View All</button>
                 </div>
+                <div id="home-suggested-carousel" class="flex gap-3.5 overflow-x-auto pb-2" style="scrollbar-width: none;"></div>
+            </div>
+
+            <!-- HORIZONTAL SWIPE SECTION 2: STREET & FOREIGN CRAVINGS -->
+            <div class="mb-7">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="royal-title text-base font-bold tracking-wide text-[#D4AF37]">Street &amp; Fast Food</h2>
+                    <button onclick="openCategorySubPage('foreign')" class="text-xs font-semibold text-[#D4AF37] hover:underline">View All</button>
+                </div>
+                <div id="home-foreign-carousel" class="flex gap-3.5 overflow-x-auto pb-2" style="scrollbar-width: none;"></div>
+            </div>
+
+            <!-- HORIZONTAL SWIPE SECTION 3: SHAHI MITHAI & SWEETS -->
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="royal-title text-base font-bold tracking-wide text-[#D4AF37]">Shahi Mithai &amp; Sweets</h2>
+                    <button onclick="openCategorySubPage('sweets')" class="text-xs font-semibold text-[#D4AF37] hover:underline">View All</button>
+                </div>
+                <div id="home-sweets-carousel" class="flex gap-3.5 overflow-x-auto pb-2" style="scrollbar-width: none;"></div>
             </div>
 
         </main>
@@ -312,6 +424,7 @@
             <div class="glass-panel rounded-3xl p-6 border border-[#D4AF37] shadow-2xl relative overflow-hidden mb-12">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#1E3A8A] opacity-25 blur-3xl pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#991B1B] opacity-25 blur-3xl pointer-events-none"></div>
+                <img id="detail-dish-hero-img" src="" alt="Dish Preview" class="w-full h-52 object-cover rounded-2xl mb-5 border border-[#D4AF37]/40 shadow-lg" onerror="this.style.display='none'; document.getElementById('dynamic-dish-blur-bg').classList.remove('active');">
 
                 <h1 id="detail-dish-title" class="royal-title text-3xl font-extrabold text-center tracking-wide mb-6 leading-tight drop-shadow-md" style="color: #D4AF37;">
                     DISH NAME PLACEHOLDER
@@ -329,10 +442,21 @@
                     <div class="relative">
                         <select id="serving-dropdown" onchange="recalculateIngredientsMetrics(this.value)" 
                                 class="w-full bg-gradient-to-b from-neutral-900 to-black text-[#D4AF37] font-bold py-3 px-4 rounded-xl border border-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37] appearance-none cursor-pointer">
-                            </select>
+                        </select>
                         <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-[#D4AF37]">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
+                    </div>
+                </div>
+
+                <!-- ROYAL VOICE ASSISTANT BUTTON & POPUP -->
+                <div class="mb-8">
+                    <button id="voice-read-btn" onclick="toggleRecipeVoiceAssistant()" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#991B1B] via-[#7f1d1d] to-black border border-[#D4AF37] text-[#D4AF37] font-bold tracking-wider uppercase text-sm flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all cursor-pointer">
+                        <svg id="voice-mic-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+                        <span id="voice-btn-label">Sun kar Banayein (Voice Guide)</span>
+                    </button>
+                    <div id="voice-warning-popup" class="hidden mt-3 p-3 rounded-xl bg-red-950/90 border border-[#D4AF37] text-[#D4AF37] text-xs font-bold text-center tracking-wide shadow-md">
+                        ⚠️ Please select persons to serve
                     </div>
                 </div>
 
@@ -340,31 +464,46 @@
                     <h3 class="royal-title text-lg font-bold tracking-wide mb-3 border-b pb-1 border-red-500/20" style="color: #D4AF37;">
                         Chahiye Hone Wala Saman (Ingredients):
                     </h3>
-                    <ul id="detail-ingredients-list" class="space-y-2.5 text-white/95 text-sm md:text-base font-medium">
-                        </ul>
+                    <ul id="detail-ingredients-list" class="space-y-2.5 text-white/95 text-sm md:text-base font-medium"></ul>
                 </div>
 
                 <div>
-                    <h3 class="royal-title text-lg font-bold tracking-wide mb-4 border-b pb-1 border-red-500/20" style="color: #D4AF37;">
-                        Banane Ka Aasan Tarika (Steps):
-                    </h3>
-                    <ol id="detail-steps-list" class="space-y-4 text-sm md:text-base text-gray-200">
-                        </ol>
+                                        <div class="flex items-center justify-between gap-2 mb-4 border-b pb-2 border-red-500/20">
+                        <h3 class="royal-title text-lg font-bold tracking-wide" style="color: #D4AF37;">Banane Ka Aasan Tarika (Steps):</h3>
+                        <button id="air-wave-toggle-btn" onclick="toggleAirWaveGestureMode()" class="clickable flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#991B1B] to-black border border-[#D4AF37]/70 text-[#D4AF37] text-[11px] font-bold uppercase tracking-wider shadow-lg">
+                            <span>👋</span>
+                            <span>Air-Wave Mode</span>
+                        </button>
+                    </div>
+
+                    <ol id="detail-steps-list" class="space-y-4 text-sm md:text-base text-gray-200"></ol>
+                </div>
+                                <!-- SMART DISH PAIRING RECOMMENDATIONS -->
+                <div class="mt-8 pt-6 border-t border-[#D4AF37]/25">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="royal-title text-base font-bold text-[#D4AF37]">🍽️ Iske Saath Try Karein</h3>
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Swipe ➔</span>
+                    </div>
+                    <div id="recipe-pairing-carousel" class="flex gap-3 overflow-x-auto pb-2" style="scrollbar-width: none;"></div>
                 </div>
             </div>
         </main>
 
+        <!-- DEDICATED CATEGORY & ALL DISHES SUB-PAGE -->
         <main id="directory-page" class="w-full max-w-lg mx-auto px-5 pt-6 hidden animate-fade">
             <button onclick="showPage('home-page')" class="clickable mb-5 flex items-center text-sm font-semibold tracking-wider text-gray-400 hover:text-white transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
-                BACK TO DASHBOARD
+                BACK TO HOME
             </button>
 
-            <h1 class="royal-title text-2xl font-bold mb-5 tracking-wide border-b border-red-500/30 pb-2" style="color: #D4AF37;">
-                Sari Dish Ki List (Database)
-            </h1>
-            <div id="full-directory-list" class="space-y-3 mb-12">
-                </div>
+            <div class="flex justify-between items-center mb-5 border-b border-red-500/30 pb-2.5">
+                <h1 id="category-subpage-title" class="royal-title text-2xl font-bold tracking-wide" style="color: #D4AF37;">
+                    All Dishes
+                </h1>
+                <span id="category-subpage-count" class="text-xs font-mono px-2.5 py-1 rounded-full bg-black/70 border border-[#D4AF37]/40 text-[#D4AF37]">0 Dishes</span>
+            </div>
+
+            <div id="full-directory-list" class="grid grid-cols-2 gap-3.5 mb-12"></div>
         </main>
 
         <main id="history-page" class="w-full max-w-lg mx-auto px-5 pt-8 hidden animate-fade">
@@ -653,7 +792,7 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
 "Jab doodh ubalne lage, toh upar aane wali malai (cream) ko karchi se kadhai ke kinaron par chipkate (chipkana) jayein.",
 "Gas ko dheema rakhein aur doodh ko pakhne edin. Har baar malai ko side mein lagate jayein.",
 "Jab doodh pak kar sirf 1/3 (one-third) reh jaye, toh kinaron par jami saari malai ko khurech (scrape) kar wapas doodh mein mila dein. Is-se lacche banenge.",
-"Cheeni, elaichi aur kesar dalein, 2 minute pakayein aur gas band kar dein. Fridge mein thanda karke parosein."] },
+"Cheeni, elaichi aur kesar dalein, 2 minute pakayein aur gas band kar dein. Fridge mein thanda karke parosein."] },            
   { id: "makhana_kheer", name: "Makhana Kheer (Vrat Special)", isMajor: false, ingredients: [
 { name: "Makhana Fox nuts (Cup)", baseQty: 2, unitType: "cup" }, { name: "Doodh (Ml)", baseQty: 500, unitType: "ml" },
 { name: "Ghee (Chammach)", baseQty: 1, unitType: "spoons" }, { name: "Cheeni (Cup)", baseQty: 0.25, unitType: "cup" },
@@ -671,7 +810,176 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
 ["Maida, sooji, malai aur thoda-thoda doodh dalkar ek smooth pheta hua ghol (batter) bana lein jo jhatpat phail sake. Ise 15 minute rest dein.",
 "Ek flat pan mein ghee garm karein (medium heat). Ek karchi batter lekar pan ke beech mein dhian se daal kar chota uttapam jaisa phailayein.",
 "Dheemi aanch par dono taraf se sunehra aur kinaron se crispy hone tak fry kar lein.",
-"Malpua ko nikal kar turant garm chashni mein 2 minute ke liye dubaen, phir nikal kar upar se rabdi ya dry fruits dalkar serve karein."] }, 
+"Malpua ko nikal kar turant garm chashni mein 2 minute ke liye dubaen, phir nikal kar upar se rabdi ya dry fruits dalkar serve karein."] },
+            { id: "veg_chowmein", name: "Street Style Veg Chowmein", isMajor: true, ingredients: [
+                { name: "Uble hue Noodles (Grams - 1 chhoti katori)", baseQty: 100, unitType: "grams" },
+                { name: "Patta Gobhi / Cabbage (Grams - 1 mutthi barik kati)", baseQty: 30, unitType: "grams" },
+                { name: "Shimla Mirch (Grams - aadhi lambi kati)", baseQty: 20, unitType: "grams" },
+                { name: "Gajar (Grams - aadhi patli lambi kati)", baseQty: 20, unitType: "grams" },
+                { name: "Pyaaz (Medium - patla kata hua)", baseQty: 0.5, unitType: "count" },
+                { name: "Soy Sauce (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Sirka / Vinegar (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Chilli Sauce (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Tel / Oil (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                { name: "Namak aur Kali Mirch (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Sabse pehle ek bartan mein paani ubalne rakhein. Jab paani ubalne lage toh usmein 1 chammach tel, thoda namak aur noodles daalkar 4-5 minute pakayein (noodles 80% hi galne chahiye, ekdam geela na karein).",
+                "Ab noodles ko chhalni (strainer) mein chhaan kar upar se thanda paani daal dein aur thoda tel lagakar alag rakh dein taaki woh aapas mein chipke nahi.",
+                "Ek badi kadhai mein tel ko tez aanch par garam karein jab tak halka dhuan na uthne lage. Sabse pehle patla kata pyaaz daalkar 30 second tez aanch par chalayein.",
+                "Ab ismein lambi kati gajar, shimla mirch aur patta gobhi daalkar tez aanch par hi 1-2 minute bhunein (sabziyon ka crunch bana rehna chahiye).",
+                "Ab gas thodi dheemi karke uble hue noodles, soy sauce, sirka, chilli sauce, namak aur kali mirch powder daalein.",
+                "Do chammach (ya fork) ki madad se noodles aur sabziyon ko tez aanch par 1 minute achhi tarah uchhaal kar mix karein aur garma-garam parosein."
+            ] },
+            { id: "masala_maggi", name: "Chatpati Masala Maggi", isMajor: false, ingredients: [
+                { name: "Maggi Noodles Packet (Piece)", baseQty: 1, unitType: "count" },
+                { name: "Maggi Tastemaker Masala (Sachet)", baseQty: 1, unitType: "count" },
+                { name: "Paani (ML - 1 bada glass)", baseQty: 250, unitType: "ml" },
+                { name: "Pyaaz (Medium - barik kata hua)", baseQty: 0.5, unitType: "count" },
+                { name: "Tamatar (Medium - barik kata hua)", baseQty: 0.5, unitType: "count" },
+                { name: "Hari Matar (Chammach)", baseQty: 2, unitType: "spoons" },
+                { name: "Makkhan ya Tel (Chammach)", baseQty: 1, unitType: "spoons" }
+            ], steps: [
+                "Ek pan ya chhoti kadhai mein makkhan ya tel garam karein. Usmein barik kata pyaaz daalkar 1 minute halke gulabi hone tak bhunein.",
+                "Ab barik kata tamatar aur hari matar daalkar 2 minute tak pakayein jab tak tamatar naram na ho jaye.",
+                "Ab ismein 1 glass (250 ML) paani daalein aur paani mein achha ubaal aane dein.",
+                "Paani ubalte hi Maggi masala sachet kaat kar daalein, phir Maggi noodles ko beech se 2 tukdon mein tod kar daal dein.",
+                "Medium aanch par 2 se 3 minute tak pakayein aur beech-beech mein chalate rahein jab tak paani sookh kar Maggi masaledar na ho jaye. Garma-garam khayein."
+            ] },
+            { id: "red_sauce_pasta", name: "Tangy Red Sauce Pasta", isMajor: false, ingredients: [
+                { name: "Penne Pasta (Grams - 1 chhoti katori)", baseQty: 80, unitType: "grams" },
+                { name: "Laal Tamatar (Medium)", baseQty: 2, unitType: "count" },
+                { name: "Lehsun / Garlic Kali (Piece - barik kati)", baseQty: 3, unitType: "count" },
+                { name: "Pyaaz (Medium - barik kata hua)", baseQty: 0.5, unitType: "count" },
+                { name: "Shimla Mirch (Grams - aadhi kati hui)", baseQty: 20, unitType: "grams" },
+                { name: "Tomato Ketchup (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Oregano aur Chilli Flakes (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Tel / Olive Oil (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                { name: "Namak (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Ek bartan mein paani ubal kar usmein thoda namak aur pasta daalein. 8-10 minute pakayein jab tak pasta naram na ho jaye, phir paani chhaan kar alag rakh lein.",
+                "Tamatar ke peeche halka sa cut lagakar 3 minute garam paani mein ubal lein, phir chhilka utar kar mixer mein pees lein (gaadhi tamatar puree ban jayegi).",
+                "Ek pan mein tel garam karke barik kata lehsun aur pyaaz daalkar 1 minute bhunein, phir shimla mirch daalkar 1 minute aur chalayein.",
+                "Ab pisi hui tamatar puree aur namak daalkar 4-5 minute pakayein jab tak sauce gaadhi na ho jaye aur kinaron se tel na chhodne lage.",
+                "Ab tomato ketchup, oregano aur chilli flakes milayein. Phir ubla hua pasta daalkar 1 minute achhi tarah mix karein aur garma-garam parosein."
+            ] },
+            { id: "white_sauce_pasta", name: "Creamy White Sauce Pasta", isMajor: false, ingredients: [
+                { name: "Penne Pasta (Grams - 1 chhoti katori)", baseQty: 80, unitType: "grams" },
+                { name: "Doodh / Milk (ML - 1 bada cup)", baseQty: 200, unitType: "ml" },
+                { name: "Makkhan / Butter (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                { name: "Maida (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Grated Cheese (Grams - 1 cheese cube)", baseQty: 25, unitType: "grams" },
+                { name: "Shimla Mirch aur Sweet Corn (Grams - 2 chammach)", baseQty: 30, unitType: "grams" },
+                { name: "Kali Mirch, Oregano aur Chilli Flakes (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Namak (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Pasta ko namak wale ubalte paani mein 8-10 minute pakakar chhaan lein. Ek alag pan mein aadha chammach makkhan daalkar shimla mirch aur sweet corn ko 2 minute halka bhun kar nikal lein.",
+                "Ab usi pan mein 1 chammach makkhan pighlayein, gas ekdam dheemi rakhein aur 1 chammach maida daalkar 1 minute lagatar chalayein (maide ka rang brown nahi hona chahiye).",
+                "Ab ek haath se chammach chalate hue dheere-dheere thoda-thoda doodh daalein taaki maide ki gaanth (lumps) bilkul na padein.",
+                "Sauce ko 2-3 minute pakayein jab tak woh cream jaisi gaadhi na ho jaye. Ab usmein kaddookas kiya cheese, namak, kali mirch, oregano aur chilli flakes milayein.",
+                "Ab ubla hua pasta aur bhuni hui sabziyan white sauce mein daalkar achhi tarah mix karein aur garma-garam serve karein."
+            ] },
+            { id: "steamed_momos", name: "Juicy Steamed Veg Momos", isMajor: false, ingredients: [
+                { name: "Maida (Grams - aadha cup)", baseQty: 60, unitType: "grams" },
+                { name: "Patta Gobhi (Grams - 1 cup barik kati)", baseQty: 50, unitType: "grams" },
+                { name: "Gajar (Grams - aadhi kaddookas ki hui)", baseQty: 25, unitType: "grams" },
+                { name: "Pyaaz (Medium - ekdam barik kata)", baseQty: 0.5, unitType: "count" },
+                { name: "Adrak-Lehsun Paste (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Soy Sauce (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Tel / Oil (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Namak aur Kali Mirch (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Ek bowl mein maida, chutki bhar namak aur thoda-thoda paani daalkar naram aata goondh lein. Upar se halka tel lagakar 15 minute dhak kar rakh dein.",
+                "Stuffing ke liye barik kati patta gobhi, gajar aur pyaaz mein thoda namak milakar 5 minute chhod dein, phir dono haathon se dabakar sabziyon ka extra paani nichod lein (isse momos geela nahi honge).",
+                "Ab nichodi hui sabziyon mein adrak-lehsun paste, soy sauce, kali mirch powder aur aadha chammach tel daalkar achhi tarah mix karein.",
+                "Maide ki chhoti-chhoti loiyan banakar ekdam patli poori jaisi bel lein. Beech mein 1 chammach sabzi ki stuffing rakhein aur kinaron par paani lagakar plate banate hue band kar dein.",
+                "Steamer ya idli stand ki plate par halka tel lagayein, momos rakhein aur bhaap (steam) mein 10-12 minute pakayein jab tak momos chamakdar aur halke transparent na dikhne lagein."
+            ] },
+            { id: "kurkure_momos", name: "Crunchy Kurkure Momos", isMajor: false, ingredients: [
+                { name: "Kache Veg Momos (Piece)", baseQty: 6, unitType: "count" },
+                { name: "Maida (Chammach)", baseQty: 2, unitType: "spoons" },
+                { name: "Cornflour / Ararot (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Paani - Ghol ke liye (ML - 3 se 4 chammach)", baseQty: 40, unitType: "ml" },
+                { name: "Cornflakes - Haath se chura kiye hue (Grams)", baseQty: 30, unitType: "grams" },
+                { name: "Tel - Talne ke liye (ML - 1 chhoti kadhai)", baseQty: 200, unitType: "ml" },
+                { name: "Chaat Masala (Chammach)", baseQty: 0.5, unitType: "spoons" }
+            ], steps: [
+                "Ek katori mein maida, cornflour, chutki bhar namak aur paani milakar na zyada patla na zyada gaadha ghol (slurry) taiyar kar lein.",
+                "Ek doosri plate mein plain cornflakes ko haath se achhi tarah chura (crush) karke faila lein.",
+                "Ab ek-ek kache momo ko pehle maide ke ghol mein duboyein, aur phir turant cornflakes ke chure mein achhi tarah lapet lein taaki poora momo cover ho jaye.",
+                "Kadhai mein medium aanch par tel garam karein. Jab tel achha garam ho jaye toh coated momos ko ek-ek karke daalein.",
+                "Medium aanch par 3-4 minute tak sunhera (golden brown) aur ekdam kurkura hone tak talein. Plate mein nikal kar upar se chaat masala chhidkein aur teekhi laal chutney ke saath khayein."
+            ] },
+            { id: "fried_momos", name: "Crispy Fried Veg Momos", isMajor: false, ingredients: [
+                { name: "Kache Veg Momos (Piece)", baseQty: 6, unitType: "count" },
+                { name: "Tel - Deep fry ke liye (ML - 1 chhoti kadhai)", baseQty: 200, unitType: "ml" },
+                { name: "Chaat Masala (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Laal Momos Chutney (Chammach)", baseQty: 2, unitType: "spoons" }
+            ], steps: [
+                "Kadhai mein tel ko medium aanch par garam karein (tel bahut zyada dhuan chhodne wala garam nahi hona chahiye, warna momos bahar se jal jayenge aur andar se kache rahenge).",
+                "Garam tel mein ek-ek karke kache momos daalein aur shuru ke 30 second unhe chammach se na chhedein.",
+                "Ab dheere-dheere palatte hue medium aanch par 4-5 minute tak talein jab tak momos charon taraf se sunhere (golden) aur crispy na ho jayein.",
+                "Tishoo paper par nikal kar extra tel hata dein, upar se chutki bhar chaat masala chhidkein aur laal chutney aur mayonnaise ke saath parosein."
+            ] },
+            { id: "veg_burger", name: "Crispy Aloo Tikki Burger", isMajor: false, ingredients: [
+                { name: "Burger Bun (Piece)", baseQty: 1, unitType: "count" },
+                { name: "Ubla hua Aloo (Medium)", baseQty: 1, unitType: "count" },
+                { name: "Breadcrumbs ya Poha Powder (Chammach)", baseQty: 2, unitType: "spoons" },
+                { name: "Ubli Hari Matar (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Pyaaz aur Tamatar ke Gol Slices (Piece)", baseQty: 2, unitType: "count" },
+                { name: "Burger Mayonnaise (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                { name: "Cheese Slice (Piece)", baseQty: 1, unitType: "count" },
+                { name: "Makkhan aur Tel (Chammach)", baseQty: 1.5, unitType: "spoons" },
+                { name: "Namak aur Chaat Masala (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Ek katori mein uble aloo ko achhi tarah mash karein. Usmein ubli matar, namak, chaat masala aur breadcrumbs (ya pisa hua poha) milakar gol aur chapti tikki bana lein.",
+                "Tawe par 1 chammach tel garam karke tikki ko dono taraf se medium aanch par ekdam kurkura aur golden brown hone tak sek lein.",
+                "Burger bun ko beech se do hisson mein kaat lein aur tawe par aadha chammach makkhan lagakar andar ki taraf se halka sek lein.",
+                "Ab bun ke neeche wale hisse par mayonnaise lagayein, uske upar garam aloo tikki, phir cheese slice, pyaaz aur tamatar ke slices rakhein.",
+                "Upar wale bun par bhi thodi mayonnaise lagakar burger ko band karein aur 30 second tawe par halka daba kar sek lein taaki cheese pighal jaye."
+            ] },
+            { id: "veg_pizza", name: "Tawa Cheesy Veg Pizza", isMajor: false, ingredients: [
+                { name: "Readymade Pizza Base (Piece)", baseQty: 1, unitType: "count" },
+                { name: "Pizza Pasta Sauce (Chammach)", baseQty: 2, unitType: "spoons" },
+                { name: "Mozzarella Cheese (Grams - 1 chhoti katori)", baseQty: 50, unitType: "grams" },
+                { name: "Kata Pyaaz, Shimla Mirch, Tamatar aur Corn (Grams)", baseQty: 40, unitType: "grams" },
+                { name: "Oregano aur Chilli Flakes (Chammach)", baseQty: 0.5, unitType: "spoons" },
+                { name: "Makkhan / Butter (Chammach)", baseQty: 1, unitType: "spoons" }
+            ], steps: [
+                "Pizza base ke upar 2 chammach pizza pasta sauce ko chammach se charon taraf achhi tarah faila dein.",
+                "Ab sauce ke upar kaddookas kiya hua mozzarella cheese (pizza cheese) bhar kar daalein.",
+                "Ab cheese ke upar kate hue pyaaz, shimla mirch, tamatar aur sweet corn ke daane saja dein aur upar se thoda sa cheese aur daalein.",
+                "Ek bhari tale wale tawe ya pan par makkhan lagayein, pizza ko tawe par rakhein aur upar se kisi bartan se achhi tarah dhak dein.",
+                "Gas ko ekdam dheema (low flame) rakhein aur 7-8 minute pakayein jab tak cheese poori tarah pighal na jaye aur neeche se base crispy na ho jaye. Oregano aur chilli flakes chhidak kar kaatein."
+            ] },
+            { id: "aloo_patties", name: "Bakery Style Aloo Patties", isMajor: false, ingredients: [
+                { name: "Maida (Grams - 1 chhoti katori)", baseQty: 80, unitType: "grams" },
+                { name: "Makkhan ya Ghee - Parat ke liye (Grams - 2 chammach)", baseQty: 25, unitType: "grams" },
+                { name: "Ubla hua Aloo (Medium)", baseQty: 1, unitType: "count" },
+                { name: "Hari Matar (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Jeera, Haldi, Dhaniya aur Garam Masala (Chammach)", baseQty: 0.25, unitType: "spoons" },
+                { name: "Namak aur Tel (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Maide mein chutki bhar namak aur 1 chammach tel milakar paani se naram aata goondh lein aur 15 minute dhak kar rakh dein.",
+                "Stuffing ke liye pan mein 1 chammach tel garam karke jeera, hari matar, haldi, dhaniya powder, garam masala aur mash kiya hua ubla aloo daalkar 3 minute bhunein aur thanda kar lein.",
+                "Ek katori mein 2 chammach pighla makkhan (ya ghee) aur 1 chammach maida milakar ek smooth paste (saata) bana lein.",
+                "Goondhe hue maide ki 4-5 ekdam patli rotiyan belein. Ek roti par makkhan wala paste lagakar doosri roti rakhein—aise sabhi rotiyon ko ek ke upar ek rakh kar roll karein aur chakkor (square) sheet bel lein.",
+                "Sheet ke beech mein 2 chammach aloo masala rakhein, kinaron par paani lagakar tikona (triangle) mod dein, aur garam tel mein ekdam dheemi aanch par golden aur paratdaar (flaky) hone tak talein."
+            ] },
+            { id: "spring_roll", name: "Crispy Veg Spring Roll", isMajor: false, ingredients: [
+                { name: "Maida - Sheet ke liye (Grams - aadha cup)", baseQty: 50, unitType: "grams" },
+                { name: "Cornflour (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Patta Gobhi, Gajar aur Shimla Mirch - Lambi kati (Grams)", baseQty: 60, unitType: "grams" },
+                { name: "Uble hue Noodles - Optional (Grams - 2 chammach)", baseQty: 25, unitType: "grams" },
+                { name: "Soy Sauce aur Chilli Sauce (Chammach)", baseQty: 1, unitType: "spoons" },
+                { name: "Tel - Talne ke liye (ML - 1 chhoti kadhai)", baseQty: 200, unitType: "ml" },
+                { name: "Namak aur Kali Mirch (Swadanusar)", baseQty: 1, unitType: "as_needed" }
+            ], steps: [
+                "Stuffing ke liye kadhai mein 1 chammach tel garam karke lambi kati patta gobhi, gajar aur shimla mirch ko tez aanch par 2 minute bhunein. Ab soy sauce, chilli sauce, namak, kali mirch aur thode uble noodles milakar thanda kar lein.",
+                "Sheet banane ke liye ek bowl mein maida, cornflour, chutki bhar namak aur paani milakar dosa jaisa patla ghol (batter) bana lein.",
+                "Non-stick tawe ko halka garam karke 1 karchi ghol daalein aur gol faila dein. Jab kinare khud chhutne lagein (1 minute mein), toh patli sheet ko plate mein utar lein.",
+                "Ab sheet ke ek kinare par 2 chammach thandi stuffing rakhein, dono side ke kinaron ko andar modein aur tight roll banakar aakhiri kinare par maide ka gaadha paste lagakar chipka dein.",
+                "Kadhai mein medium garam tel mein rolls ko 3-4 minute tak charon taraf se golden brown aur ekdam kurkura hone tak talein, phir tircha (diagonal) kaat kar parosein."
+            ] }
         ];
 
         // SESSION STATE ENGINE MANAGEMENT DATA ARCHITECTURE
@@ -702,7 +1010,7 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
 
         // INITIALIZATION LIFECYCLE ENGINE RUNNER
         window.addEventListener('DOMContentLoaded', () => {
-            initializePortionDropdownMenuOptions();
+                    initializePortionDropdownMenuOptions();
             buildMajorDishesUIPanel();
             buildComprehensiveDirectoryMenu();
             renderUserHistoryLogsDOM();
@@ -733,48 +1041,159 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
             }
         }
 
-        // GENERATE TOP 5 MAJOR DISHES UI ELEMENTS
-        function buildMajorDishesUIPanel() {
-            const container = document.getElementById('major-dishes-grid');
-            const majorDishes = recipesDatabase.filter(r => r.isMajor);
-            container.innerHTML = "";
+        // ROYAL FLAGSHIP UI ENGINE (PHOTO CARDS, HORIZONTAL CAROUSELS, CATEGORY SUB-PAGES & FAVORITES)
+        var currentSelectedCategory = 'all';
+        var favoriteDishIds = JSON.parse(localStorage.getItem('royalRasoiFavorites') || '[]');
 
-            majorDishes.forEach(dish => {
-                const item = document.createElement('div');
-                // Included subtle premium metallic red border modifications over standard premium design
-                item.className = "clickable flex justify-between items-center bg-black/70 border border-red-900/40 hover:border-[#D4AF37] rounded-xl p-3.5 cursor-pointer transition-all duration-300";
-                item.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(dish.id); };
-                item.innerHTML = `
-                    <span class="text-white font-semibold tracking-wide text-base">${dish.name}</span>
-                    <span class="premium-shine-btn text-xs uppercase font-extrabold tracking-widest px-3 py-1.5 rounded-md bg-gradient-to-r from-[#1E3A8A] via-[#991B1B] to-[#1E3A8A] border border-[#D4AF37]/40 text-white">View</span>
-                `;
-                container.appendChild(item);
-            });
+        function toggleFavoriteDish(event, dishId) {
+            event.stopPropagation();
+            triggerClickSound();
+            const idx = favoriteDishIds.indexOf(dishId);
+            if (idx === -1) {
+                favoriteDishIds.push(dishId);
+            } else {
+                favoriteDishIds.splice(idx, 1);
+            }
+            localStorage.setItem('royalRasoiFavorites', JSON.stringify(favoriteDishIds));
+            buildMajorDishesUIPanel();
+            if (!document.getElementById('directory-page').classList.contains('hidden')) {
+                renderCategorySubPageGrid(currentSelectedCategory);
+            }
         }
 
-        // GENERATE ALL DISHES MENU SCREEN DIRECTORY LAYOUT
-        function buildComprehensiveDirectoryMenu() {
-            const container = document.getElementById('full-directory-list');
-            container.innerHTML = "";
+        function getDishClassification(dish) {
+            const nameAndIng = (dish.name + ' ' + dish.ingredients.map(i => i.name).join(' ')).toLowerCase();
+            let dishType = dish.type || (/(chicken|mutton|egg|anda|fish|prawns|keema|meat)/i.test(nameAndIng) ? 'nonveg' : 'veg');
+            let dishCat = dish.category;
+            if (!dishCat) {
+                if (/(lassi|chai|coffee|shake|juice|sharbat|mojito|drink|thandai|chaas)/i.test(dish.name.toLowerCase())) {
+                    dishCat = 'drinks';
+                } else if (/(malpua|kheer|halwa|gulab jamun|rasgulla|jalebi|ladoo|barfi|kulfi|sweet|payasam|rabdi|rasmalai|tukda)/i.test(dish.name.toLowerCase())) {
+                    dishCat = 'sweets';
+                } else if (/(chowmein|maggi|pasta|momos|burger|pizza|patties|spring roll|noodles|manchurian|sandwich|fries)/i.test(dish.name.toLowerCase())) {
+                    dishCat = 'foreign';
+                } else {
+                    dishCat = 'desi';
+                }
+            }
+            return { type: dishType, category: dishCat };
+        }
 
-            recipesDatabase.forEach((dish, idx) => {
-                const row = document.createElement('div');
-                row.className = "clickable flex justify-between items-center p-3.5 rounded-xl border border-neutral-800/60 bg-neutral-900/50 hover:bg-black/80 cursor-pointer transition-all";
-                row.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(dish.id); };
-                row.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs font-mono font-bold text-[#D4AF37]">${String(idx+1).padStart(2, '0')}.</span>
-                        <span class="text-white font-medium text-sm md:text-base">${dish.name}</span>
+        function createDishPhotoCardHTML(dish, isCarouselCard) {
+            const isFav = favoriteDishIds.includes(dish.id);
+            const info = getDishClassification(dish);
+            const vegBadge = info.type === 'nonveg'
+                ? `<span class="w-4 h-4 rounded-sm border border-red-500 bg-black/80 flex items-center justify-center"><span class="w-2 h-2 rounded-full bg-red-500"></span></span>`
+                : `<span class="w-4 h-4 rounded-sm border border-green-500 bg-black/80 flex items-center justify-center"><span class="w-2 h-2 rounded-full bg-green-500"></span></span>`;
+
+            const widthClass = isCarouselCard ? 'w-36 flex-shrink-0' : 'w-full';
+            const card = document.createElement('div');
+            card.className = `clickable ${widthClass} rounded-2xl glass-panel border border-[#D4AF37]/30 hover:border-[#D4AF37] overflow-hidden shadow-lg cursor-pointer transition-all duration-300 flex flex-col justify-between bg-black/60`;
+            card.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(dish.id); };
+
+            card.innerHTML = `
+                <div class="relative w-full h-28 bg-gradient-to-br from-[#2a0a0a] via-[#111111] to-[#0a1428] overflow-hidden">
+                    <img src="images/${dish.id}.jpg" alt="${dish.name}" class="w-full h-full object-cover"
+                         onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden w-full h-full flex flex-col items-center justify-center text-center p-2">
+                        <span class="text-2xl mb-1">🍽️</span>
+                        <span class="text-[9px] uppercase tracking-widest text-[#D4AF37]/70 font-bold">Royal Dish</span>
                     </div>
-                    <span class="text-xs font-serif italic text-red-500/80">Royal Choice</span>
-                `;
-                container.appendChild(row);
+                    <div class="absolute top-2 left-2">${vegBadge}</div>
+                    <button onclick="toggleFavoriteDish(event, '${dish.id}')" class="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-black/70 border border-white/15 flex items-center justify-center text-xs active:scale-125 transition-transform">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
+                </div>
+                <div class="p-2.5 flex flex-col justify-between flex-grow">
+                    <p class="text-white font-semibold text-xs leading-snug line-clamp-2 mb-1.5">${dish.name}</p>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37]">View Recipe ➔</span>
+                </div>
+            `;
+            return card;
+        }
+
+        // GENERATE HOME PAGE HORIZONTAL SWIPE SECTIONS
+        function buildMajorDishesUIPanel() {
+            const suggestedContainer = document.getElementById('home-suggested-carousel');
+            const foreignContainer = document.getElementById('home-foreign-carousel');
+            const sweetsContainer = document.getElementById('home-sweets-carousel');
+
+            if (suggestedContainer) {
+                suggestedContainer.innerHTML = "";
+                recipesDatabase.filter(r => r.isMajor).forEach(dish => {
+                    suggestedContainer.appendChild(createDishPhotoCardHTML(dish, true));
+                });
+            }
+
+            if (foreignContainer) {
+                foreignContainer.innerHTML = "";
+                recipesDatabase.filter(r => getDishClassification(r).category === 'foreign').slice(0, 8).forEach(dish => {
+                    foreignContainer.appendChild(createDishPhotoCardHTML(dish, true));
+                });
+            }
+
+            if (sweetsContainer) {
+                sweetsContainer.innerHTML = "";
+                recipesDatabase.filter(r => getDishClassification(r).category === 'sweets').slice(0, 8).forEach(dish => {
+                    sweetsContainer.appendChild(createDishPhotoCardHTML(dish, true));
+                });
+            }
+        }
+
+        function openCategorySubPage(catKey) {
+            currentSelectedCategory = catKey;
+            showPage('directory-page');
+            renderCategorySubPageGrid(catKey);
+        }
+
+        function renderCategorySubPageGrid(catKey) {
+            const container = document.getElementById('full-directory-list');
+            const titleEl = document.getElementById('category-subpage-title');
+            const countEl = document.getElementById('category-subpage-count');
+            container.innerHTML = "";
+
+            const titles = {
+                all: "All Royal Dishes",
+                veg: "Pure Veg Dishes",
+                nonveg: "Non-Veg Specials",
+                desi: "Desi Khana",
+                foreign: "Foreign & Street Foods",
+                drinks: "Refreshing Drinks",
+                sweets: "Shahi Mithai & Sweets",
+                favorites: "Your Saved Favorites"
+            };
+            if (titleEl) titleEl.innerText = titles[catKey] || "All Dishes";
+
+            const filtered = recipesDatabase.filter(dish => {
+                if (catKey === 'all') return true;
+                if (catKey === 'favorites') return favoriteDishIds.includes(dish.id);
+                const info = getDishClassification(dish);
+                if (catKey === 'veg' || catKey === 'nonveg') return info.type === catKey;
+                return info.category === catKey;
+            });
+
+            if (countEl) countEl.innerText = `${filtered.length} Dishes`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-12 text-gray-400 text-sm glass-panel rounded-2xl p-6">Is section mein abhi koi dish nahi hai.</div>`;
+                return;
+            }
+
+            filtered.forEach(dish => {
+                container.appendChild(createDishPhotoCardHTML(dish, false));
             });
         }
+
+        function buildComprehensiveDirectoryMenu() {
+            renderCategorySubPageGrid(currentSelectedCategory);
+        }
+       
 
         // NAVIGATION COMPONENT MANAGER
         function showPage(pageId) {
             triggerClickSound();
+            document.getElementById('dynamic-dish-blur-bg').classList.remove('active');
+
             
             // Toggle view panels visibility fields
             ['home-page', 'recipe-detail-page', 'directory-page', 'history-page'].forEach(id => {
@@ -819,6 +1238,9 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
 
         function returnToPreviousView() {
             triggerClickSound();
+            document.getElementById('dynamic-dish-blur-bg').classList.remove('active');
+
+
             if (activeViewHistoryStack.length > 1) {
                 activeViewHistoryStack.pop(); 
                 const prev = activeViewHistoryStack[activeViewHistoryStack.length - 1];
@@ -902,27 +1324,69 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
             activeRecipeContext = recipe;
             triggerSuccessSound();
 
+            stopRecipeVoiceAssistant();
             document.getElementById('detail-dish-title').innerText = recipe.name;
+const autoImgPath = `images/${recipe.id}.jpg`;
+const blurBg = document.getElementById('dynamic-dish-blur-bg');
+const heroImg = document.getElementById('detail-dish-hero-img');
+
+blurBg.style.backgroundImage = `url('${autoImgPath}')`;
+blurBg.classList.add('active');
+heroImg.src = autoImgPath;
+heroImg.style.display = 'block';
+
+
             document.getElementById('serving-dropdown').value = "1";
 
             // Map and paint quantities metric configurations arrays layout interface
             recalculateIngredientsMetrics(1);
 
-            // Print sequential ordered dynamic procedural lines
+                        // BUILT-IN AUTO COOKING TIMER ENGINE + SEQUENTIAL STEPS RENDERER
             const stepsUl = document.getElementById('detail-steps-list');
             stepsUl.innerHTML = "";
             recipe.steps.forEach((step, index) => {
                 const li = document.createElement('li');
-                li.className = "flex gap-3 items-start bg-neutral-900/50 p-3.5 rounded-xl border border-red-950/40 glass-panel";
+                li.className = "flex flex-col gap-2.5 bg-neutral-900/50 p-3.5 rounded-xl border border-red-950/40 glass-panel";
+
+                // Step text ke andar se time detect karein (jaise "5 minute", "12 se 15 minute", "30 second")
+                let timerButtonHTML = "";
+                const timeMatch = step.match(/(\d+)\s*(?:se\s*(\d+)\s*)?(minute|min|second|sec|ghante|hour)/i);
+                if (timeMatch) {
+                    const numVal = parseInt(timeMatch[2] || timeMatch[1], 10);
+                    const unitRaw = timeMatch[3].toLowerCase();
+                    let totalSeconds = numVal * 60;
+                    let btnText = `${numVal} Min Timer`;
+
+                    if (unitRaw.startsWith('sec')) {
+                        totalSeconds = numVal;
+                        btnText = `${numVal} Sec Timer`;
+                    } else if (unitRaw.startsWith('ghant') || unitRaw.startsWith('hour')) {
+                        totalSeconds = numVal * 3600;
+                        btnText = `${numVal} Hr Timer`;
+                    }
+
+                    timerButtonHTML = `
+                        <div class="pl-9">
+                            <button onclick="startRoyalCookingTimer(${totalSeconds}, 'Step ${index + 1} (${btnText})')" class="clickable inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#991B1B] to-black border border-[#D4AF37]/60 text-[#D4AF37] text-xs font-bold tracking-wider uppercase shadow-md">
+                                ⏱️ Start ${btnText}
+                            </button>
+                        </div>
+                    `;
+                }
+
                 li.innerHTML = `
-                    <span class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-[#991B1B] to-black text-[#D4AF37] border border-[#D4AF37]/40 font-mono text-xs font-bold flex items-center justify-center mt-0.5">
-                        ${index + 1}
-                    </span>
-                    <p class="text-gray-200 text-sm md:text-base leading-relaxed font-light">${step}</p>
+                    <div class="flex gap-3 items-start">
+                        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-[#991B1B] to-black text-[#D4AF37] border border-[#D4AF37]/40 font-mono text-xs font-bold flex items-center justify-center mt-0.5">
+                            ${index + 1}
+                        </span>
+                        <p class="text-gray-200 text-sm md:text-base leading-relaxed font-light">${step}</p>
+                    </div>
+                    ${timerButtonHTML}
                 `;
                 stepsUl.appendChild(li);
             });
-
+renderSmartDishPairings(recipe);        
+            
             // LOG SEARCH/VISIT TRACK RECORD EVENT MATRIX DATA INSIGHT IN LOCAL STATE RECORDERS
             recordLogEventToLocalHistoryAsset(recipe.id, recipe.name);
 
@@ -933,7 +1397,214 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
             document.getElementById('recipe-detail-page').classList.remove('hidden');
             activeViewHistoryStack.push('recipe-detail-page');
         }
+        // ROYAL VOICE ASSISTANT ENGINE (100% PURE INDIAN FEMALE VOICE + COMPLETE SCRIPT)
+        var isVoiceSpeaking = false;
+        var isVoicePaused = false;
+        var voiceSentenceQueue = [];
+        var voiceCurrentIndex = 0;
 
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = function () {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        function convertToPureIndianFemaleSpeech(text) {
+            let speechText = text
+                .replace(/\b0\.25\b|1\/4/g, "एक चौथाई")
+                .replace(/\b0\.5\b|1\/2|\bhalf\b/gi, "आधा")
+                .replace(/\b0\.75\b|3\/4/g, "तीन चौथाई")
+                .replace(/\b1\.5\b|1\s*1\/2|1\s*Aur\s*Aadha/gi, "डेढ़")
+                .replace(/\b2\.5\b|2\s*1\/2|2\s*Aur\s*Aadha/gi, "ढाई")
+                .replace(/\b3\.5\b|3\s*1\/2/g, "साढ़े तीन")
+                .replace(/\b4\.5\b|4\s*1\/2/g, "साढ़े चार")
+                .replace(/\bChauthai\b/gi, "एक चौथाई")
+                .replace(/\bAadha\b/gi, "आधा")
+                .replace(/\bgrams\b|\bgraam\b/gi, "ग्राम")
+                .replace(/\bml\b|\bM L\b/gi, "एम एल")
+                .replace(/\bchammach\b|\bspoons\b/gi, "चम्मच")
+                .replace(/\bcup\b|\bkatori\b/gi, "कप")
+                .replace(/\bchutki\b|\bpinch\b/gi, "चुटकी")
+                .replace(/\bpiece\b/gi, "पीस")
+                .replace(/\bswadanusar\b/gi, "स्वादानुसार")
+                .replace(/\baur\b/gi, "और")
+                .replace(/\bmein\b/gi, "में")
+                .replace(/\bke liye\b/gi, "के लिए")
+                .replace(/\bko\b/gi, "को")
+                .replace(/\bka\b/gi, "का")
+                .replace(/\bki\b/gi, "की")
+                .replace(/\bse\b/gi, "से")
+                .replace(/\bhai\b/gi, "है")
+                .replace(/\bhain\b/gi, "हैं")
+                .replace(/\bkar\b/gi, "कर")
+                .replace(/\bkarein\b/gi, "करें")
+                .replace(/\bdaalein\b/gi, "डालें")
+                .replace(/\bpakayein\b/gi, "पकाएं")
+                .replace(/\bminute\b/gi, "मिनट")
+                .replace(/\bsecond\b/gi, "सेकंड")
+                .replace(/\bnamak\b/gi, "नमक")
+                .replace(/\bpaani\b/gi, "पानी")
+                .replace(/\btel\b/gi, "तेल")
+                .replace(/\bmakkhan\b/gi, "मक्खन")
+                .replace(/\bghee\b/gi, "घी")
+                .replace(/\bdoodh\b/gi, "दूध")
+                .replace(/\bcheeni\b/gi, "चीनी")
+                .replace(/\bpyaaz\b/gi, "प्याज़")
+                .replace(/\btamatar\b/gi, "टमाटर")
+                .replace(/\baloo\b/gi, "आलू")
+                .replace(/\bmaida\b/gi, "मैदा");
+            return speechText;
+        }
+
+        function stopRecipeVoiceAssistant() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isVoiceSpeaking = false;
+            isVoicePaused = false;
+            voiceSentenceQueue = [];
+            voiceCurrentIndex = 0;
+            const label = document.getElementById('voice-btn-label');
+            const popup = document.getElementById('voice-warning-popup');
+            if (label) label.innerText = "Sun kar Banayein (Voice Guide)";
+            if (popup) popup.classList.add('hidden');
+        }
+
+        function speakNextVoiceSentence() {
+            if (!isVoiceSpeaking || isVoicePaused) return;
+
+            if (voiceCurrentIndex >= voiceSentenceQueue.length) {
+                stopRecipeVoiceAssistant();
+                return;
+            }
+
+            const rawSentence = voiceSentenceQueue[voiceCurrentIndex];
+            const indianSpeechText = convertToPureIndianFemaleSpeech(rawSentence);
+            const utterance = new SpeechSynthesisUtterance(indianSpeechText);
+            
+            // Android Google TTS ki saari voices load karein
+            const voices = window.speechSynthesis.getVoices();
+            const hindiVoices = voices.filter(v => v.lang === 'hi-IN' || v.lang === 'hi_IN' || v.lang.startsWith('hi'));
+            
+            // Male voices (hid, hic, male, man) ko chhodkar strictly Female voice chunein
+            const femaleHindiVoice = hindiVoices.find(v => {
+                const n = v.name.toLowerCase();
+                const isMale = n.includes('hid') || n.includes('hic') || n.includes('male') || n.includes('man') || n.includes('madhur');
+                const isFemale = n.includes('hia') || n.includes('hie') || n.includes('hif') || n.includes('hig') || n.includes('female') || n.includes('woman') || n.includes('swara') || n.includes('kalpana');
+                return isFemale && !isMale;
+            }) || hindiVoices.find(v => {
+                const n = v.name.toLowerCase();
+                return !n.includes('hid') && !n.includes('hic') && !n.includes('male');
+            }) || hindiVoices[0];
+
+            if (femaleHindiVoice) {
+                utterance.voice = femaleHindiVoice;
+                utterance.lang = femaleHindiVoice.lang;
+            } else {
+                utterance.lang = 'hi-IN';
+            }
+
+            utterance.rate = 0.89;
+            utterance.pitch = 1.32;  // 100% Natural Indian Female vocal pitch
+
+            utterance.onend = function () {
+                if (isVoiceSpeaking && !isVoicePaused) {
+                    voiceCurrentIndex++;
+                    speakNextVoiceSentence();
+                }
+            };
+
+            utterance.onerror = function () {
+                if (isVoiceSpeaking && !isVoicePaused) {
+                    voiceCurrentIndex++;
+                    speakNextVoiceSentence();
+                }
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function toggleRecipeVoiceAssistant() {
+            if (!activeRecipeContext) return;
+            const dropdown = document.getElementById('serving-dropdown');
+            const popup = document.getElementById('voice-warning-popup');
+            const label = document.getElementById('voice-btn-label');
+            const personCount = dropdown ? dropdown.value : "";
+
+            if (!personCount || personCount === "0" || personCount === "") {
+                popup.classList.remove('hidden');
+                setTimeout(() => popup.classList.add('hidden'), 3000);
+                return;
+            }
+            popup.classList.add('hidden');
+
+            // 1. PAUSE
+            if (isVoiceSpeaking && !isVoicePaused) {
+                isVoicePaused = true;
+                window.speechSynthesis.cancel();
+                label.innerText = "Resume Voice (Wahin Se Chalu Karein)";
+                return;
+            }
+
+            // 2. RESUME
+            if (isVoiceSpeaking && isVoicePaused) {
+                isVoicePaused = false;
+                label.innerText = "Pause Voice (Rokein)";
+                speakNextVoiceSentence();
+                return;
+            }
+
+            // 3. START NEW
+            window.speechSynthesis.cancel();
+            const dishName = activeRecipeContext.name;
+            const multiplier = parseInt(personCount) || 1;
+
+            voiceSentenceQueue = [
+                `नमस्ते! तो आज आप ${dishName} बनाना चाहते हैं।`,
+                `${dishName} को बनाना बहुत ही आसान है, बस मेरी बात को ध्यान से सुनते जाएं।`,
+                `तो आप ${dishName}, ${multiplier} लोगों के लिए बना रहे हैं। इसके लिए आपको यह सारी चीज़ें चाहिए होंगी:`
+            ];
+
+            activeRecipeContext.ingredients.forEach(ing => {
+                const calculatedVal = ing.baseQty * multiplier;
+                // Bracket wala "(1/2)" ya "(1/4)" hata dein taaki do baar na bole
+                const cleanQtyText = formatMetricQuantityToHinglish(calculatedVal, ing.unitType).replace(/\(.*?\)/g, '').trim();
+                const cleanName = ing.name.replace(/\(.*?\)/g, '').trim();
+                
+                let unitWord = "";
+                if (ing.unitType === "grams") unitWord = "ग्राम";
+                else if (ing.unitType === "ml") unitWord = "एम एल";
+                else if (ing.unitType === "spoons") unitWord = "चम्मच";
+                else if (ing.unitType === "cup") unitWord = "कप";
+                else if (ing.unitType === "pinch") unitWord = "चुटकी";
+                else if (ing.unitType === "count") unitWord = "पीस";
+
+                if (ing.unitType === "as_needed") {
+                    voiceSentenceQueue.push(`${cleanName}, स्वादानुसार।`);
+                } else {
+                    const alreadyHasUnit = unitWord && cleanQtyText.toLowerCase().includes(unitWord.toLowerCase());
+                    const finalQtySpeech = alreadyHasUnit ? cleanQtyText : `${cleanQtyText} ${unitWord}`;
+                    voiceSentenceQueue.push(`${cleanName}, ${finalQtySpeech}।`);
+                }
+            });
+
+            voiceSentenceQueue.push(`अब चलिए बनाना शुरू करते हैं, बस इन तरीकों को ध्यान से सुनें:`);
+
+            activeRecipeContext.steps.forEach((step, idx) => {
+                // "Satep" ki jagah "Number 1", "Number 2" bolega jo ekdam saaf sunai dega
+                voiceSentenceQueue.push(`नंबर ${idx + 1}. ${step}`);
+            });
+
+            voiceSentenceQueue.push(`बस, बन कर रेडी हो चुका है आपका गरमा-गरम ${dishName}! अब आप इसे एंजॉय करें।`);
+
+            voiceCurrentIndex = 0;
+            isVoiceSpeaking = true;
+            isVoicePaused = false;
+            label.innerText = "Pause Voice (Rokein)";
+            speakNextVoiceSentence();
+        }
+          
         // DYNAMIC ALGORITHM MULTIPLIER WITH HUMANIZED HINGLISH VALUE TRANSITIONS
         function recalculateIngredientsMetrics(factorValue) {
             if (!activeRecipeContext) return;
@@ -1031,6 +1702,612 @@ unitType: "grams" }, { name: "Maida (Chammach)", baseQty: 4, unitType: "spoons" 
             localStorage.removeItem('royal_recipe_history_logs');
             renderUserHistoryLogsDOM();
         }
+        // ROYAL COOKING TIMER CONTROLLER + LOUD TWIN-BELL "TING-TING" ALARM + BACKGROUND SYNC
+        var cookingTimerInterval = null;
+        var cookingTimerAlarmLoop = null;
+        var cookingTimerEndTime = 0;
+        var cookingTimerRemaining = 0;
+        var cookingTimerPaused = false;
+        var cookingTimerLabel = "Cooking Timer";
+
+        function playLoudTingTingAlarmOnce() {
+            try {
+                if (!AudioEngine.ctx) AudioEngine.init();
+                if (AudioEngine.ctx.state === 'suspended') AudioEngine.ctx.resume();
+                const ctx = AudioEngine.ctx;
+                const now = ctx.currentTime;
+
+                // Purani Twin-Bell Alarm Clock (⏰) ki teekhi "Ting-Ting!" ghanti
+                function strikeMetalBell(t) {
+                    const freqs = [2350, 3520, 4700];
+                    freqs.forEach((f, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = idx === 0 ? 'triangle' : 'sine';
+                        osc.frequency.setValueAtTime(f, t);
+
+                        const peakVol = idx === 0 ? 0.95 : (idx === 1 ? 0.65 : 0.35);
+                        gain.gain.setValueAtTime(0.001, t);
+                        gain.gain.exponentialRampToValueAtTime(peakVol, t + 0.008);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(t);
+                        osc.stop(t + 0.23);
+                    });
+                }
+
+                // Rapid "Ting-Ting-Ting-Ting" twin-bell hammer strikes
+                for (let i = 0; i < 6; i++) {
+                    strikeMetalBell(now + i * 0.11);
+                }
+
+                // Phone Vibration bhi saath mein bajegi
+                if ('vibrate' in navigator) {
+                    navigator.vibrate([300, 100, 300, 100, 400]);
+                }
+            } catch (e) {}
+        }
+
+        function triggerSystemTimerNotification(titleText) {
+            try {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification("⏰ Royal Rasoi - Timer Complete!", {
+                        body: `${titleText} ka samay poora ho gaya hai!`,
+                        vibrate: [300, 100, 300]
+                    });
+                }
+            } catch (e) {}
+        }
+
+        function startTringTringAlarmLoop() {
+            stopTringTringAlarmLoop();
+            playLoudTingTingAlarmOnce();
+            triggerSystemTimerNotification(cookingTimerLabel);
+            cookingTimerAlarmLoop = setInterval(playLoudTingTingAlarmOnce, 1250);
+        }
+
+        function stopTringTringAlarmLoop() {
+            if (cookingTimerAlarmLoop) {
+                clearInterval(cookingTimerAlarmLoop);
+                cookingTimerAlarmLoop = null;
+            }
+            if ('vibrate' in navigator) navigator.vibrate(0);
+        }
+
+        function startRoyalCookingTimer(seconds, labelText) {
+            triggerClickSound();
+            clearInterval(cookingTimerInterval);
+            stopTringTringAlarmLoop();
+
+            // Notification permission maangein taaki background se lautne par alert dikhe
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+
+            cookingTimerLabel = labelText || "Cooking Timer";
+            cookingTimerRemaining = seconds;
+            cookingTimerEndTime = Date.now() + (seconds * 1000);
+            cookingTimerPaused = false;
+
+            const bar = document.getElementById('floating-cooking-timer');
+            const labelEl = document.getElementById('timer-step-label');
+            const pauseBtn = document.getElementById('timer-pause-btn');
+
+            if (labelEl) labelEl.innerText = cookingTimerLabel;
+            if (pauseBtn) pauseBtn.innerText = "Pause";
+            if (bar) bar.classList.remove('hidden');
+
+            updateCookingTimerDisplay();
+            cookingTimerInterval = setInterval(syncRoyalCookingTimerTick, 500);
+        }
+
+        function syncRoyalCookingTimerTick() {
+            if (cookingTimerPaused || !cookingTimerEndTime) return;
+            const msLeft = cookingTimerEndTime - Date.now();
+            cookingTimerRemaining = Math.ceil(msLeft / 1000);
+            updateCookingTimerDisplay();
+
+            if (msLeft <= 0) {
+                cookingTimerRemaining = 0;
+                cookingTimerEndTime = 0;
+                clearInterval(cookingTimerInterval);
+                startTringTringAlarmLoop();
+                const labelEl = document.getElementById('timer-step-label');
+                const pauseBtn = document.getElementById('timer-pause-btn');
+                if (labelEl) labelEl.innerText = "⏰ TIME POORA HO GAYA!";
+                if (pauseBtn) pauseBtn.innerText = "Done";
+            }
+        }
+
+        // App minimize karke wapas kholne par turant exact time sync karein
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && cookingTimerEndTime > 0 && !cookingTimerPaused) {
+                syncRoyalCookingTimerTick();
+            }
+        });
+
+        function updateCookingTimerDisplay() {
+            const display = document.getElementById('timer-countdown-display');
+            if (!display) return;
+            const mins = Math.floor(Math.max(0, cookingTimerRemaining) / 60);
+            const secs = Math.max(0, cookingTimerRemaining) % 60;
+            display.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function toggleCookingTimerPause() {
+            triggerClickSound();
+            if (cookingTimerRemaining <= 0) {
+                stopAndCloseCookingTimer();
+                return;
+            }
+            cookingTimerPaused = !cookingTimerPaused;
+            const pauseBtn = document.getElementById('timer-pause-btn');
+            if (cookingTimerPaused) {
+                cookingTimerEndTime = 0;
+                if (pauseBtn) pauseBtn.innerText = "Resume";
+            } else {
+                cookingTimerEndTime = Date.now() + (cookingTimerRemaining * 1000);
+                if (pauseBtn) pauseBtn.innerText = "Pause";
+            }
+        }
+
+        function stopAndCloseCookingTimer() {
+            triggerClickSound();
+            clearInterval(cookingTimerInterval);
+            stopTringTringAlarmLoop();
+            cookingTimerEndTime = 0;
+            const bar = document.getElementById('floating-cooking-timer');
+            if (bar) bar.classList.add('hidden');
+        }
+        // MERE FRIDGE MEIN KYA HAI? (SMART INGREDIENT SEARCH ENGINE)
+        const fridgeIngredientOptions = [
+            { label: "🥔 Aloo", keys: ["aloo"] },
+            { label: "🧀 Paneer", keys: ["paneer"] },
+            { label: "🍗 Chicken", keys: ["chicken"] },
+            { label: "🥛 Doodh", keys: ["doodh", "milk"] },
+            { label: "🌾 Maida", keys: ["maida"] },
+            { label: "🟡 Besan", keys: ["besan"] },
+            { label: "🍚 Chawal", keys: ["chawal", "rice"] },
+            { label: "🍅 Tamatar", keys: ["tamatar"] },
+            { label: "🧅 Pyaaz", keys: ["pyaaz"] },
+            { label: "🧈 Makkhan/Ghee", keys: ["makkhan", "butter", "ghee"] },
+            { label: "🍜 Noodles/Pasta", keys: ["noodles", "pasta", "maggi"] },
+            { label: "🧀 Cheese", keys: ["cheese"] }
+        ];
+        var selectedFridgeKeys = [];
+
+        function toggleFridgeFinderPanel() {
+            triggerClickSound();
+            const panel = document.getElementById('fridge-finder-panel');
+            const arrow = document.getElementById('fridge-toggle-arrow');
+            if (!panel) return;
+            const isHidden = panel.classList.contains('hidden');
+            if (isHidden) {
+                panel.classList.remove('hidden');
+                if (arrow) arrow.innerText = "Close ▲";
+                renderFridgeIngredientChips();
+                renderFridgeMatchedRecipes();
+            } else {
+                panel.classList.add('hidden');
+                if (arrow) arrow.innerText = "Select Items ▼";
+            }
+        }
+
+        function renderFridgeIngredientChips() {
+            const container = document.getElementById('fridge-chips-container');
+            if (!container) return;
+            container.innerHTML = "";
+            fridgeIngredientOptions.forEach((item, idx) => {
+                const isSelected = selectedFridgeKeys.includes(idx);
+                const btn = document.createElement('button');
+                btn.className = isSelected
+                    ? "px-2.5 py-1 rounded-full text-xs font-bold bg-[#D4AF37] text-black border border-[#D4AF37] shadow-md transition-all"
+                    : "px-2.5 py-1 rounded-full text-xs font-medium bg-white/5 text-gray-200 border border-white/15 hover:border-[#D4AF37]/60 transition-all";
+                btn.innerText = item.label;
+                btn.onclick = () => {
+                    triggerClickSound();
+                    if (isSelected) {
+                        selectedFridgeKeys = selectedFridgeKeys.filter(i => i !== idx);
+                    } else {
+                        selectedFridgeKeys.push(idx);
+                    }
+                    renderFridgeIngredientChips();
+                    renderFridgeMatchedRecipes();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function clearFridgeIngredients() {
+            triggerClickSound();
+            selectedFridgeKeys = [];
+            renderFridgeIngredientChips();
+            renderFridgeMatchedRecipes();
+        }
+
+        function renderFridgeMatchedRecipes() {
+            const resultsBox = document.getElementById('fridge-results-container');
+            if (!resultsBox) return;
+
+            if (selectedFridgeKeys.length === 0) {
+                resultsBox.innerHTML = `<p class="text-center text-[11px] text-gray-400 py-2">Upar se 1 ya zyada items chunein, hum batayenge kya ban sakta hai!</p>`;
+                return;
+            }
+
+            const matchedDishes = [];
+            recipesDatabase.forEach(dish => {
+                const fullText = (dish.name + " " + dish.ingredients.map(i => i.name).join(" ")).toLowerCase();
+                let matchCount = 0;
+                selectedFridgeKeys.forEach(idx => {
+                    const keys = fridgeIngredientOptions[idx].keys;
+                    if (keys.some(k => fullText.includes(k))) {
+                        matchCount++;
+                    }
+                });
+                if (matchCount > 0) {
+                    matchedDishes.push({ dish, matchCount, totalSelected: selectedFridgeKeys.length });
+                }
+            });
+
+            matchedDishes.sort((a, b) => b.matchCount - a.matchCount);
+            resultsBox.innerHTML = "";
+
+            if (matchedDishes.length === 0) {
+                resultsBox.innerHTML = `<p class="text-center text-xs text-red-400 py-2">In items se match karti koi dish nahi mili.</p>`;
+                return;
+            }
+
+            matchedDishes.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "clickable flex items-center justify-between p-2.5 rounded-xl bg-neutral-900/90 border border-[#D4AF37]/30 hover:border-[#D4AF37] cursor-pointer";
+                row.onclick = () => { triggerClickSound(); displayRecipeDetailViewer(item.dish.id); };
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#991B1B] text-[#D4AF37] border border-[#D4AF37]/30">
+                            ${item.matchCount}/${item.totalSelected} Match
+                        </span>
+                        <span class="text-white text-xs font-semibold">${item.dish.name}</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-[#D4AF37]">Banayein ➔</span>
+                `;
+                resultsBox.appendChild(row);
+            });
+        } 
+                // SMART REAL-LIFE FOOD PAIRING & RECOMMENDATION ENGINE
+        function renderSmartDishPairings(currentRecipe) {
+            const container = document.getElementById('recipe-pairing-carousel');
+            if (!container) return;
+            container.innerHTML = "";
+
+            const name = currentRecipe.name.toLowerCase();
+            const currentCat = getDishClassification(currentRecipe).category;
+
+            // Current dish ka food-group pehchanein
+            const isBiryaniOrRice = /(biryani|pulao|fried rice|jeera rice|khichdi)/i.test(name);
+            const isBread = /(naan|roti|paratha|kulcha|bhatura|puri)/i.test(name);
+            const isGravy = /(paneer|chicken|mutton|chole|rajma|dal|kofta|korma|curry|masala|butter|kadhai)/i.test(name) && !isBiryaniOrRice;
+            const isSnackOrFastFood = /(samosa|pakora|chaat|tikki|momos|noodles|chowmein|pasta|pizza|burger|sandwich|fries|roll|manchurian|chilli)/i.test(name);
+            const isDrink = currentCat === 'drinks' || /(lassi|chai|coffee|shake|juice|sharbat|shikanji|mojito|tea)/i.test(name);
+            const isSweet = currentCat === 'sweets' || /(gulab jamun|rasmalai|kheer|halwa|jalebi|ladoo|barfi|rabri|pudding|cake|ice cream)/i.test(name);
+
+            const candidates = recipesDatabase.filter(r => r.id !== currentRecipe.id);
+
+            const scored = candidates.map(dish => {
+                const dName = dish.name.toLowerCase();
+                const dCat = getDishClassification(dish).category;
+                let score = 0;
+
+                const dIsBiryaniOrRice = /(biryani|pulao|fried rice|jeera rice|khichdi)/i.test(dName);
+                const dIsBread = /(naan|roti|paratha|kulcha|bhatura|puri)/i.test(dName);
+                const dIsGravy = /(paneer|chicken|mutton|chole|rajma|dal|kofta|korma|curry|masala|butter|kadhai)/i.test(dName) && !dIsBiryaniOrRice;
+                const dIsSnack = /(samosa|pakora|chaat|tikki|momos|noodles|chowmein|pasta|pizza|burger|sandwich|fries|roll|manchurian|chilli)/i.test(dName);
+                const dIsDrink = dCat === 'drinks' || /(lassi|chai|coffee|shake|juice|sharbat|shikanji|mojito|tea)/i.test(dName);
+                const dIsSweet = dCat === 'sweets' || /(gulab jamun|rasmalai|kheer|halwa|jalebi|ladoo|barfi|rabri|pudding|cake|ice cream)/i.test(dName);
+
+                if (isBiryaniOrRice) {
+                    // Biryani/Rice ke saath: Raita, Drink/Lassi, ya Gravy (Kabhi doosri Biryani ya Mithai nahi!)
+                    if (/(raita|boondi|dahi|salad)/i.test(dName)) score += 100;
+                    else if (dIsDrink) score += 85;
+                    else if (dIsGravy) score += 70;
+                    else if (dIsBiryaniOrRice || dIsSweet) score -= 100;
+                } else if (isGravy) {
+                    // Gravy/Sabzi ke saath: Naan/Roti, Jeera Rice, Raita, Lassi (Kabhi doosri heavy gravy nahi!)
+                    if (dIsBread) score += 100;
+                    else if (/(jeera rice|pulao|rice)/i.test(dName) && !/biryani/i.test(dName)) score += 90;
+                    else if (/(raita|lassi|shikanji|chaas)/i.test(dName)) score += 80;
+                    else if (dIsDrink) score += 65;
+                    else if (dIsGravy) score -= 50;
+                } else if (isBread) {
+                    // Naan/Roti/Paratha ke saath: Gravy/Sabzi, Raita, Lassi
+                    if (dIsGravy) score += 100;
+                    else if (/(raita|lassi|chai)/i.test(dName)) score += 80;
+                    else if (dIsBread) score -= 80;
+                } else if (isSnackOrFastFood) {
+                    // Snacks/Street Food ke saath: Chai, Cold Coffee, Shakes, Drinks
+                    if (dIsDrink) score += 100;
+                    else if (dIsSnack) score += 40;
+                    else if (dIsGravy || dIsBiryaniOrRice) score -= 60;
+                } else if (isDrink) {
+                    // Drinks ke saath: Snacks, Biryani, ya Spicy Desi Food
+                    if (dIsSnack) score += 100;
+                    else if (dIsBiryaniOrRice || dIsGravy) score += 75;
+                    else if (dIsDrink) score -= 80;
+                } else if (isSweet) {
+                    // Mithai ke saath: Namkeen Snacks ya Chai/Coffee (Doosri mithai nahi!)
+                    if (dIsSnack) score += 100;
+                    else if (/(chai|coffee)/i.test(dName)) score += 85;
+                    else if (dIsSweet) score -= 100;
+                } else {
+                    if (dIsDrink) score += 70;
+                    else if (dIsSnack) score += 60;
+                }
+
+                return { dish, score };
+            });
+
+            // Sirf positive matching dishes ko top score ke hisaab se dikhayein
+            const bestMatches = scored
+                .filter(item => item.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 6);
+
+            bestMatches.forEach(item => {
+                container.appendChild(createDishPhotoCardHTML(item.dish, true));
+            });
+        }
+
+                // ANDROID / PHONE HARDWARE BACK BUTTON & GESTURE NAVIGATION MANAGER
+        var isHandlingSystemBack = false;
+
+        // App load hote hi Home Page ko base state set karein
+        window.addEventListener('DOMContentLoaded', () => {
+            history.replaceState({ page: 'home-page' }, '', '#home');
+        });
+
+        // Original showPage ko wrap karein taaki har page change phone ke back stack mein save ho
+        const originalShowPageFn = showPage;
+        showPage = function(pageId) {
+            originalShowPageFn(pageId);
+            if (!isHandlingSystemBack) {
+                if (pageId === 'home-page') {
+                    // Home par aate hi stack reset kar dein taaki Home se back karne par app exit ho sake
+                    history.replaceState({ page: 'home-page' }, '', '#home');
+                } else {
+                    history.pushState({ page: pageId }, '', '#' + pageId);
+                }
+            }
+        };
+
+        // Original displayRecipeDetailViewer ko wrap karein taaki dish kholne par bhi back button kaam kare
+        const originalDisplayRecipeFn = displayRecipeDetailViewer;
+        displayRecipeDetailViewer = function(dishId) {
+            originalDisplayRecipeFn(dishId);
+            if (!isHandlingSystemBack) {
+                history.pushState({ page: 'recipe-detail-page', dishId: dishId }, '', '#dish-' + dishId);
+            }
+        };
+
+        // Jab user phone ka Back button ya Back gesture chalaye
+        window.addEventListener('popstate', function(event) {
+            isHandlingSystemBack = true;
+
+            // Agar floating timer chal raha hai aur modal/fridge panel khula hai toh pehle use band karein
+            const fridgePanel = document.getElementById('fridge-finder-panel');
+            if (fridgePanel && !fridgePanel.classList.contains('hidden')) {
+                fridgePanel.classList.add('hidden');
+                const arrow = document.getElementById('fridge-toggle-arrow');
+                if (arrow) arrow.innerText = "Select Items ▼";
+                history.pushState({ page: 'home-page' }, '', '#home');
+                isHandlingSystemBack = false;
+                return;
+            }
+
+            // Stack mein se current page hatakar pichhle page par jayein
+            if (typeof activeViewHistoryStack !== 'undefined' && activeViewHistoryStack.length > 1) {
+                activeViewHistoryStack.pop();
+                const prevPage = activeViewHistoryStack[activeViewHistoryStack.length - 1] || 'home-page';
+                originalShowPageFn(prevPage);
+                if (prevPage === 'home-page') {
+                    history.replaceState({ page: 'home-page' }, '', '#home');
+                }
+            } else {
+                originalShowPageFn('home-page');
+                history.replaceState({ page: 'home-page' }, '', '#home');
+            }
+
+            setTimeout(() => { isHandlingSystemBack = false; }, 50);
+        });
+                        // TOUCHLESS 2-WAY DIRECTIONAL AIR-SCROLL ENGINE (UP & DOWN HAND GESTURE + NEVER AUTO-STOPS)
+        var airWaveActive = false;
+        var airWaveStream = null;
+        var airWaveInterval = null;
+        var airWavePrevFrame = null;
+        var airWaveCooldown = false;
+        var airWaveStartY = null;
+        var airWaveLastMotionTime = 0;
+        var airWaveWakeLock = null;
+
+        async function toggleAirWaveGestureMode() {
+            if (airWaveActive) {
+                stopAirWaveGestureMode();
+            } else {
+                await startAirWaveGestureMode();
+            }
+        }
+
+        async function startAirWaveGestureMode() {
+            triggerClickSound();
+            const hud = document.getElementById('air-wave-hud');
+            const statusText = document.getElementById('air-wave-status-text');
+            const video = document.getElementById('air-wave-video');
+            const canvas = document.getElementById('air-wave-canvas');
+            const toggleBtn = document.getElementById('air-wave-toggle-btn');
+
+            try {
+                airWaveStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "user", width: 64, height: 48 },
+                    audio: false
+                });
+                video.srcObject = airWaveStream;
+                await video.play();
+
+                // Screen ko hamesha ON rakhein jab tak user khud band na kare
+                if ('wakeLock' in navigator) {
+                    try { airWaveWakeLock = await navigator.wakeLock.request('screen'); } catch (e) {}
+                }
+
+                airWaveActive = true;
+                airWavePrevFrame = null;
+                airWaveCooldown = false;
+                airWaveStartY = null;
+
+                if (hud) hud.classList.remove('hidden');
+                if (toggleBtn) toggleBtn.classList.add('ring-2', 'ring-[#D4AF37]');
+                if (statusText) statusText.innerText = "⬆️ Haath Upar = Neeche Scroll | ⬇️ Haath Neeche = Upar Scroll";
+
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                airWaveInterval = setInterval(() => {
+                    if (!airWaveActive || video.readyState < 2) return;
+                    ctx.drawImage(video, 0, 0, 64, 48);
+                    const frame = ctx.getImageData(0, 0, 64, 48).data;
+
+                    if (airWavePrevFrame && !airWaveCooldown) {
+                        let sumY = 0;
+                        let motionPixels = 0;
+
+                        // Har pixel ka Y-axis (upar se neeche) center nikaalein
+                        for (let y = 0; y < 48; y += 2) {
+                            for (let x = 0; x < 64; x += 2) {
+                                const idx = (y * 64 + x) * 4;
+                                const diff = Math.abs(frame[idx] - airWavePrevFrame[idx]) +
+                                             Math.abs(frame[idx + 1] - airWavePrevFrame[idx + 1]) +
+                                             Math.abs(frame[idx + 2] - airWavePrevFrame[idx + 2]);
+                                if (diff > 95) {
+                                    sumY += y;
+                                    motionPixels++;
+                                }
+                            }
+                        }
+
+                        const now = Date.now();
+                        if (motionPixels > 45) {
+                            const currentAvgY = sumY / motionPixels;
+
+                            // Agar naya hand gesture shuru hua hai toh starting Y position note karein
+                            if (airWaveStartY === null || (now - airWaveLastMotionTime) > 500) {
+                                airWaveStartY = currentAvgY;
+                            }
+                            airWaveLastMotionTime = now;
+
+                            const deltaY = currentAvgY - airWaveStartY;
+
+                            // deltaY < -5.5 => Haath camera mein UPAR gaya (Swipe Up -> Page Neeche Scroll)
+                            if (deltaY < -5.5) {
+                                triggerDirectionalAirScroll('DOWN');
+                            }
+                            // deltaY > 5.5 => Haath camera mein NEECHE gaya (Swipe Down -> Page Upar Scroll)
+                            else if (deltaY > 5.5) {
+                                triggerDirectionalAirScroll('UP');
+                            }
+                        } else if ((now - airWaveLastMotionTime) > 450) {
+                            airWaveStartY = null;
+                        }
+                    }
+                    airWavePrevFrame = new Uint8ClampedArray(frame);
+                }, 80);
+
+            } catch (err) {
+                alert("Camera permission nahi mili! Settings se Camera allow karein taaki Air-Wave Gesture kaam kare.");
+                stopAirWaveGestureMode();
+            }
+        }
+
+        function triggerDirectionalAirScroll(direction) {
+            airWaveCooldown = true;
+            airWaveStartY = null;
+
+            const statusText = document.getElementById('air-wave-status-text');
+            const scrollStep = Math.round(window.innerHeight * 0.58);
+
+            if (direction === 'DOWN') {
+                window.scrollBy({ top: scrollStep, behavior: 'smooth' });
+                if (statusText) statusText.innerText = "⬆️ Hand Up Detected — Neeche Scroll Ho Raha Hai...";
+                playAirWaveTone(980);
+            } else {
+                window.scrollBy({ top: -scrollStep, behavior: 'smooth' });
+                if (statusText) statusText.innerText = "⬇️ Hand Down Detected — Upar Scroll Ho Raha Hai...";
+                playAirWaveTone(660);
+            }
+
+            if ('vibrate' in navigator) navigator.vibrate(70);
+
+            // 900ms ke baad agla gesture turant ready (kabhi auto-band nahi hoga!)
+            setTimeout(() => {
+                airWaveCooldown = false;
+                if (airWaveActive && statusText) {
+                    statusText.innerText = "⬆️ Haath Upar = Neeche Scroll | ⬇️ Haath Neeche = Upar Scroll";
+                }
+            }, 900);
+        }
+
+        function playAirWaveTone(freq) {
+            try {
+                if (!AudioEngine.ctx) AudioEngine.init();
+                if (AudioEngine.ctx.state === 'suspended') AudioEngine.ctx.resume();
+                const ctx = AudioEngine.ctx;
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.exponentialRampToValueAtTime(0.28, now + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.17);
+            } catch (e) {}
+        }
+
+        function stopAirWaveGestureMode() {
+            airWaveActive = false;
+            airWaveStartY = null;
+            if (airWaveInterval) {
+                clearInterval(airWaveInterval);
+                airWaveInterval = null;
+            }
+            if (airWaveStream) {
+                airWaveStream.getTracks().forEach(track => track.stop());
+                airWaveStream = null;
+            }
+            if (airWaveWakeLock) {
+                try { airWaveWakeLock.release(); } catch (e) {}
+                airWaveWakeLock = null;
+            }
+            const hud = document.getElementById('air-wave-hud');
+            const toggleBtn = document.getElementById('air-wave-toggle-btn');
+            if (hud) hud.classList.add('hidden');
+            if (toggleBtn) toggleBtn.classList.remove('ring-2', 'ring-[#D4AF37]');
+        }                                            
     </script>
+        <!-- TOUCHLESS AIR-WAVE GESTURE HUD & OFFLINE MOTION SENSOR -->
+    <video id="air-wave-video" autoplay playsinline muted class="hidden"></video>
+    <canvas id="air-wave-canvas" width="64" height="48" class="hidden"></canvas>
+
+    <div id="air-wave-hud" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md p-3.5 rounded-2xl glass-panel border-2 border-[#D4AF37] bg-black/95 shadow-2xl">
+        <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+                <span class="text-2xl animate-bounce">👋</span>
+                <div>
+                    <p class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">Air-Wave Sensor Active</p>
+                    <p id="air-wave-status-text" class="text-[11px] text-gray-300">Agle step ke liye camera ke saamne haath hilayein</p>
+                </div>
+            </div>
+            <button onclick="stopAirWaveGestureMode()" class="px-2.5 py-1 rounded-lg bg-red-950/80 border border-red-500/50 text-red-300 text-xs font-bold">Band Karein ✕</button>
+        </div>
+    </div>
 </body>
 </html>
