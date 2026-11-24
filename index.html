@@ -1457,10 +1457,14 @@ renderSmartDishPairings(recipe);
             return speechText;
         }
 
-        function stopRecipeVoiceAssistant() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
+                async function stopRecipeVoiceAssistant() {
+            try {
+                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) {
+                    await window.Capacitor.Plugins.TextToSpeech.stop();
+                } else if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+            } catch (e) {}
             isVoiceSpeaking = false;
             isVoicePaused = false;
             voiceSentenceQueue = [];
@@ -1471,7 +1475,7 @@ renderSmartDishPairings(recipe);
             if (popup) popup.classList.add('hidden');
         }
 
-        function speakNextVoiceSentence() {
+        async function speakNextVoiceSentence() {
             if (!isVoiceSpeaking || isVoicePaused) return;
 
             if (voiceCurrentIndex >= voiceSentenceQueue.length) {
@@ -1481,51 +1485,53 @@ renderSmartDishPairings(recipe);
 
             const rawSentence = voiceSentenceQueue[voiceCurrentIndex];
             const indianSpeechText = convertToPureIndianFemaleSpeech(rawSentence);
-            const utterance = new SpeechSynthesisUtterance(indianSpeechText);
-            
-            // Android Google TTS ki saari voices load karein
-            const voices = window.speechSynthesis.getVoices();
-            const hindiVoices = voices.filter(v => v.lang === 'hi-IN' || v.lang === 'hi_IN' || v.lang.startsWith('hi'));
-            
-            // Male voices (hid, hic, male, man) ko chhodkar strictly Female voice chunein
-            const femaleHindiVoice = hindiVoices.find(v => {
-                const n = v.name.toLowerCase();
-                const isMale = n.includes('hid') || n.includes('hic') || n.includes('male') || n.includes('man') || n.includes('madhur');
-                const isFemale = n.includes('hia') || n.includes('hie') || n.includes('hif') || n.includes('hig') || n.includes('female') || n.includes('woman') || n.includes('swara') || n.includes('kalpana');
-                return isFemale && !isMale;
-            }) || hindiVoices.find(v => {
-                const n = v.name.toLowerCase();
-                return !n.includes('hid') && !n.includes('hic') && !n.includes('male');
-            }) || hindiVoices[0];
 
-            if (femaleHindiVoice) {
-                utterance.voice = femaleHindiVoice;
-                utterance.lang = femaleHindiVoice.lang;
-            } else {
-                utterance.lang = 'hi-IN';
+            // 1. Native Android Capacitor TextToSpeech (APK / Play Store Build)
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) {
+                try {
+                    await window.Capacitor.Plugins.TextToSpeech.speak({
+                        text: indianSpeechText,
+                        lang: 'hi-IN',
+                        rate: 0.95,
+                        pitch: 1.05,
+                        volume: 1.0,
+                        category: 'ambient'
+                    });
+                    if (isVoiceSpeaking && !isVoicePaused) {
+                        voiceCurrentIndex++;
+                        speakNextVoiceSentence();
+                    }
+                } catch (err) {
+                    if (isVoiceSpeaking && !isVoicePaused) {
+                        voiceCurrentIndex++;
+                        speakNextVoiceSentence();
+                    }
+                }
+                return;
             }
 
-                        utterance.rate = 0.92;
-            utterance.pitch = 1.05;  // Safe pitch for Android WebView TTS engine
-            
+            // 2. Browser / TrebEdit Preview Fallback
+            const utterance = new SpeechSynthesisUtterance(indianSpeechText);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 0.92;
+            utterance.pitch = 1.05;
+
             utterance.onend = function () {
                 if (isVoiceSpeaking && !isVoicePaused) {
                     voiceCurrentIndex++;
                     speakNextVoiceSentence();
                 }
             };
-
             utterance.onerror = function () {
                 if (isVoiceSpeaking && !isVoicePaused) {
                     voiceCurrentIndex++;
                     speakNextVoiceSentence();
                 }
             };
-
             window.speechSynthesis.speak(utterance);
         }
 
-        function toggleRecipeVoiceAssistant() {
+        async function toggleRecipeVoiceAssistant() {
             if (!activeRecipeContext) return;
             const dropdown = document.getElementById('serving-dropdown');
             const popup = document.getElementById('voice-warning-popup');
@@ -1539,10 +1545,15 @@ renderSmartDishPairings(recipe);
             }
             popup.classList.add('hidden');
 
+            const hasNativeTTS = !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech);
+
             // 1. PAUSE
             if (isVoiceSpeaking && !isVoicePaused) {
                 isVoicePaused = true;
-                window.speechSynthesis.cancel();
+                try {
+                    if (hasNativeTTS) await window.Capacitor.Plugins.TextToSpeech.stop();
+                    else if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                } catch (e) {}
                 label.innerText = "Resume Voice (Wahin Se Chalu Karein)";
                 return;
             }
@@ -1556,7 +1567,11 @@ renderSmartDishPairings(recipe);
             }
 
             // 3. START NEW
-            window.speechSynthesis.cancel();
+            try {
+                if (hasNativeTTS) await window.Capacitor.Plugins.TextToSpeech.stop();
+                else if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            } catch (e) {}
+
             const dishName = activeRecipeContext.name;
             const multiplier = parseInt(personCount) || 1;
 
@@ -1568,7 +1583,6 @@ renderSmartDishPairings(recipe);
 
             activeRecipeContext.ingredients.forEach(ing => {
                 const calculatedVal = ing.baseQty * multiplier;
-                // Bracket wala "(1/2)" ya "(1/4)" hata dein taaki do baar na bole
                 const cleanQtyText = formatMetricQuantityToHinglish(calculatedVal, ing.unitType).replace(/\(.*?\)/g, '').trim();
                 const cleanName = ing.name.replace(/\(.*?\)/g, '').trim();
                 
@@ -1592,27 +1606,26 @@ renderSmartDishPairings(recipe);
             voiceSentenceQueue.push(`अब चलिए बनाना शुरू करते हैं, बस इन तरीकों को ध्यान से सुनें:`);
 
             activeRecipeContext.steps.forEach((step, idx) => {
-                // "Satep" ki jagah "Number 1", "Number 2" bolega jo ekdam saaf sunai dega
                 voiceSentenceQueue.push(`नंबर ${idx + 1}. ${step}`);
             });
 
             voiceSentenceQueue.push(`बस, बन कर रेडी हो चुका है आपका गरमा-गरम ${dishName}! अब आप इसे एंजॉय करें।`);
 
-            if (!('speechSynthesis' in window)) {
-    alert("Is device par Voice Guide support nahi hai.");
-    return;
-}
-voiceCurrentIndex = 0;
-isVoiceSpeaking = true;
-isVoicePaused = false;
-label.innerText = "Pause Voice (Rokein)";
-setTimeout(() => {
-    if (isVoiceSpeaking && !isVoicePaused) {
-        speakNextVoiceSentence();
-    }
-}, 120);
-}
-          
+            if (!hasNativeTTS && !('speechSynthesis' in window)) {
+                alert("Is device par Voice Guide support nahi hai.");
+                return;
+            }
+
+            voiceCurrentIndex = 0;
+            isVoiceSpeaking = true;
+            isVoicePaused = false;
+            label.innerText = "Pause Voice (Rokein)";
+            setTimeout(() => {
+                if (isVoiceSpeaking && !isVoicePaused) {
+                    speakNextVoiceSentence();
+                }
+            }, 120);
+        }          
         // DYNAMIC ALGORITHM MULTIPLIER WITH HUMANIZED HINGLISH VALUE TRANSITIONS
         function recalculateIngredientsMetrics(factorValue) {
             if (!activeRecipeContext) return;
