@@ -33,6 +33,8 @@ jobs:
           npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
           mkdir -p www
           cp index.html www/
+          cp -f glass-theme.css www/ || true
+          cp -rf images www/ || true
           cat << 'EOF' > capacitor.config.json
           {
             "appId": "com.royalrasoi.app",
@@ -44,8 +46,9 @@ jobs:
           sed -i 's/minSdkVersion = .*/minSdkVersion = 24/g' android/variables.gradle
           sed -i 's/compileSdkVersion = .*/compileSdkVersion = 36/g' android/variables.gradle
           sed -i 's/targetSdkVersion = .*/targetSdkVersion = 36/g' android/variables.gradle
-          sed -i 's/versionCode 1/versionCode 3/g' android/app/build.gradle
-          sed -i 's/versionName "1.0"/versionName "1.2"/g' android/app/build.gradle
+          sed -i 's/versionCode 1/versionCode 4/g' android/app/build.gradle
+          sed -i 's/versionName "1.0"/versionName "2.0"/g' android/app/build.gradle
+          sed -i 's|<application|<uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-feature android:name="android.hardware.camera.front" android:required="false" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WAKE_LOCK" />\n    <application|' android/app/src/main/AndroidManifest.xml
 
       - name: Generate Custom App Icons & Splash Screen
         run: |
